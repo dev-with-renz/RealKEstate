@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     """Unified application configuration validating standard, staging, and production specs."""
     
     # ── Application Environment State ──────────────────────────────
+    app_name: str = "RealKEstate API"
     fastapi_env: str = Field(default="development", validation_alias="FASTAPI_ENV")
     debug: bool = False
 
@@ -47,13 +48,14 @@ class Settings(BaseSettings):
 def model_post_init(self, __context) -> None:
     """Dynamic adjustments triggered right after Pydantic finishes initial data injection."""
 
+    defaults = type(self).model_fields
+    
     if self.fastapi_env == "production":
         self.debug = False
         self.cookie_secure = True
-
-        if self.cors_origins == type(self).model_fields["cors_origins"].default:
-            self.cors_origins = ["https://myapp.com"]
-        if self.csp == type(self).model_fields["csp"].default:
+        if self.cors_origins == defaults["cors_origins"].default:
+            self.cors_origins = ["https://myapp.com"]  # TODO: real domain
+        if self.csp == defaults["csp"].default:
             self.csp = (
                 "default-src 'self'; script-src 'self'; style-src 'self'; "
                 "connect-src 'self' https://myapp.com"
@@ -61,14 +63,12 @@ def model_post_init(self, __context) -> None:
 
     elif self.fastapi_env == "staging":
         self.debug = False
-
-        if self.cors_origins == type(self).model_fields["cors_origins"].default:
+        if self.cors_origins == defaults["cors_origins"].default:
             self.cors_origins = ["https://myapp.com"]
-        if self.csp == type(self).model_fields["csp"].default:
+        if self.csp == defaults["csp"].default:
             self.csp = (
                 "default-src 'self'; script-src 'self'; style-src 'self'; "
                 "connect-src 'self' https://myapp.com"
             )
-            
 
 settings = Settings()
