@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import String, DateTime, text, Index
 from sqlalchemy.orm import Mapped, mapped_column
-from backend.app.src.db.base import TimestampMixin, Base
+from backend.app.db.base import TimestampMixin, Base
 
 class User(TimestampMixin, Base):
     """An application account, with optional OAuth profile details."""

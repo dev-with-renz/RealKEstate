@@ -1,6 +1,6 @@
 from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
-from backend.app.src.db.base import TimestampMixin, Base
+from backend.app.db.base import TimestampMixin, Base
 
 class Inquiry(TimestampMixin, Base):
     """A website lead: either a normal inquiry or a 'free quote' request."""
