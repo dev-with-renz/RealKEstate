@@ -1,2 +1,6 @@
+# General
 README.md
 backend/.env
+
+# misc files
+*.pyc
