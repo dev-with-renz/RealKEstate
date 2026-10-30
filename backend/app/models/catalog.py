@@ -1,8 +1,8 @@
 from decimal import Decimal
 from sqlalchemy import Column, String, Text, Table, Numeric, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from backend.app.src.db.base import Base, TimestampMixin
-from backend.app.src.db.types import JsonB
+from backend.app.db.base import Base, TimestampMixin
+from backend.app.db.types import JsonB
 
 # Amenity can be shared by multiple properties.
 property_amenity = Table(
