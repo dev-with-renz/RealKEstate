@@ -38,5 +38,6 @@ class PropertyDetail(PropertySummary):
     description: str
     address: str| None
     images: list[str]
+    amenities: list[str]
     nearby: dict[str, list[str]]
     buildings: list[BuildingOut]

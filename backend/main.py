@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.src.api.router import api_router
+from backend.app.api.router import api_router
 from backend.app.core.config import settings
-from backend.app.src.db.session import engine
+from backend.app.db.session import engine
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):

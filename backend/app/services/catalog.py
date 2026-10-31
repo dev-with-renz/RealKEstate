@@ -4,7 +4,7 @@ from sqlalchemy import and_, exists, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from backend.app.src.models.catalog import Building, NearbyPlace, Property, Unit, UnitType
+from backend.app.models.catalog import Building, NearbyPlace, Property, Unit, UnitType
 from backend.app.src.schemas.catalog import PropertyDetail, PropertySummary, BuildingOut, UnitTypeOut
 
 ESC = "\\"

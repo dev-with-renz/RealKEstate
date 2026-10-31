@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Query
 
-from backend.app.src.api.deps import SessionDep
+from backend.app.api.deps import SessionDep
 from backend.app.src.schemas.catalog import PropertyDetail, PropertySummary
 from backend.app.src.services.catalog import PropertyFilters, get_property_by_slug, search_properties
 
