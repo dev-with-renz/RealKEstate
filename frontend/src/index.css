@@ -1,1 +1,141 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   RealKEstate × DECA HOMES theme (Tailwind v4 is CSS-first: there is no
+   tailwind.config.js. Everything lives in this @theme block and becomes
+   utilities automatically: bg-deca-500, text-ink-900, rounded-leaf, shadow-glow ...)
+
+   Palette idea: DECA's red + orange stay the heroes. A deep plum "ink" gives the
+   high contrast, warm cream keeps it light, and a tiny electric-teal "lagoon" is the
+   neon pop used only for status dots and badges.
+   ────────────────────────────────────────────────────────────────────────── */
+@theme static {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* DECA signature red-orange */
+  --color-deca-50: #fff3ef;
+  --color-deca-100: #ffe1d8;
+  --color-deca-200: #ffc3b0;
+  --color-deca-300: #ff9a7e;
+  --color-deca-400: #fb6a47;
+  --color-deca-500: #ee3b24;
+  --color-deca-600: #d12a16;
+  --color-deca-700: #a81f10;
+  --color-deca-800: #7f1a10;
+  --color-deca-900: #53120d;
+
+  /* Tangerine / amber (the warm half of the gradient) */
+  --color-ember-300: #ffc078;
+  --color-ember-400: #ffa44a;
+  --color-ember-500: #ff8a1f;
+  --color-ember-600: #e8710a;
+  --color-sun-300: #ffd27a;
+
+  /* Plum ink: text and dark surfaces */
+  --color-ink-50: #f6f1f7;
+  --color-ink-100: #ebe2ed;
+  --color-ink-200: #d4c6d7;
+  --color-ink-300: #b3a0b8;
+  --color-ink-400: #8a7590;
+  --color-ink-500: #655070;
+  --color-ink-600: #47334f;
+  --color-ink-700: #33223b;
+  --color-ink-800: #251530;
+  --color-ink-900: #1a0f1f;
+  --color-ink-950: #100813;
+
+  /* Light surfaces */
+  --color-cream: #fff8f3;
+  --color-blush: #ffe9e0;
+
+  /* Neon pop (use sparingly) */
+  --color-lagoon-400: #19e3c1;
+  --color-lagoon-500: #0fc7a8;
+
+  /* Shape language: soft + sharp on the same box (two big round corners, two tight ones) */
+  --radius-leaf: 2rem 0.45rem;
+  --radius-leaf-sm: 1.25rem 0.35rem;
+  --radius-leaf-alt: 0.45rem 2rem;
+
+  /* Warm, tinted shadows instead of grey ones */
+  --shadow-soft: 0 12px 32px -14px rgb(83 18 13 / 0.28);
+  --shadow-lift: 0 30px 70px -28px rgb(83 18 13 / 0.45);
+  --shadow-glow: 0 12px 28px -8px rgb(238 59 36 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.35);
+  --shadow-neon: 0 0 22px rgb(255 138 31 / 0.55), 0 0 60px rgb(238 59 36 / 0.35);
+
+  --animate-rise: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { @apply bg-cream font-sans text-ink-900 antialiased; }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-deca-500); color: #fff; }
+  :focus-visible { outline: 3px solid var(--color-ember-500); outline-offset: 3px; }
+  img { max-width: 100%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* NOTE: in Tailwind v4 you cannot @apply a class defined here, so combine them in markup:
+   <button class="btn btn-primary">. */
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
+      transition duration-200 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+  }
+  .btn-primary { @apply bg-linear-to-r from-deca-500 to-ember-500 text-white shadow-glow hover:brightness-110; }
+  .btn-dark { @apply bg-ink-900 text-white hover:bg-ink-700; }
+  .btn-light { @apply bg-white text-ink-900 hover:bg-blush; }
+  .btn-ghost { @apply border border-ink-900/15 bg-white/70 text-ink-900 backdrop-blur hover:bg-white; }
+
+  .field {
+    @apply w-full rounded-2xl border border-ink-900/15 bg-white px-4 py-3 text-sm text-ink-900 shadow-sm transition
+      placeholder:text-ink-400 focus:border-deca-400 focus:outline-none focus:ring-4 focus:ring-deca-200/70
+      aria-[invalid=true]:border-deca-600 aria-[invalid=true]:ring-4 aria-[invalid=true]:ring-deca-200/80;
+  }
+  .field-label { @apply mb-1.5 block text-sm font-semibold text-ink-800; }
+  .field-error { @apply mt-1.5 text-sm font-medium text-deca-700; }
+
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold; }
+
+  /* Dark section background with the two warm glows (hero-like surfaces) */
+  .bg-glow {
+    background:
+      radial-gradient(40rem 20rem at 88% -15%, rgb(238 59 36 / 0.55), transparent 60%),
+      radial-gradient(30rem 16rem at -5% 115%, rgb(255 138 31 / 0.38), transparent 60%),
+      var(--color-ink-900);
+  }
+
+  /* Gradient hairline border that glows teal-to-orange: the "neon" edge for dark panels */
+  .neon-edge { position: relative; }
+  .neon-edge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1.5px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--color-ember-500), var(--color-deca-500) 55%, var(--color-lagoon-400));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
