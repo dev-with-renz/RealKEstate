@@ -116,7 +116,10 @@ class Unit(TimestampMixin, Base):
     """An individual rentable or saleable unit in a building."""
 
     __tablename__ = "units"
-    __table_args__ = (UniqueConstraint("building_id", "unit_number", name="uq_units_building_unit_number"))
+    __table_args__ = (
+        UniqueConstraint("building_id", "unit_number", name="uq_units_building_unit_number"),
+        { "schema": "public"}
+        )
     
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     building_id: Mapped[int] = mapped_column(ForeignKey("buildings.id", ondelete="CASCADE"))
@@ -130,4 +133,4 @@ class Unit(TimestampMixin, Base):
     image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     
     building: Mapped["Building"] = relationship(back_populates="units")
-    unit_type: Mapped["UnitType"] = relationship(back_populates="units", nullable=True)
+    unit_type: Mapped["UnitType"] = relationship(back_populates="units")

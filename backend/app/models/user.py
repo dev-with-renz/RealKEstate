@@ -7,7 +7,7 @@ class User(TimestampMixin, Base):
     """An application account, with optional OAuth profile details."""
 
     __tablename__ = "users"
-    __table_args__ = (Index("ix_users_email_username", "email", "username"))
+    __table_args__ = (Index("ix_users_email_username", "email", "username"),)
     
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     email: Mapped[str | None] = mapped_column(String(255), unique=True, index=True, nullable=True)
