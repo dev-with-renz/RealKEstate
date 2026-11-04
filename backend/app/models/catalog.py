@@ -116,10 +116,7 @@ class Unit(TimestampMixin, Base):
     """An individual rentable or saleable unit in a building."""
 
     __tablename__ = "units"
-    __table_args__ = (
-        UniqueConstraint("building_id", "unit_number", name="uq_units_building_unit_number"),
-        { "schema": "public"}
-        )
+    __table_args__ = (UniqueConstraint("building_id", "unit_number", name="uq_units_building_unit_number"),        )
     
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     building_id: Mapped[int] = mapped_column(ForeignKey("buildings.id", ondelete="CASCADE"))

@@ -4,7 +4,7 @@ from sqlalchemy import select
 from backend.app.api.deps import SessionDep
 from backend.app.models.catalog import Property
 from backend.app.models.inquiry import Inquiry
-from backend.app.src.schemas.inquiry import InquiryCreate, InquiryOut
+from backend.app.schemas.inquiry import InquiryCreate, InquiryOut
 
 router = APIRouter(prefix="/inquiries", tags=["inquiries"])
 

@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from backend.app.models.catalog import Building, NearbyPlace, Property, Unit, UnitType
-from backend.app.src.schemas.catalog import PropertyDetail, PropertySummary, BuildingOut, UnitTypeOut
+from backend.app.schemas.catalog import PropertyDetail, PropertySummary, BuildingOut, UnitTypeOut
 
 ESC = "\\"
 

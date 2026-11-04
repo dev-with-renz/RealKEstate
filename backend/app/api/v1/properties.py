@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Query
 
 from backend.app.api.deps import SessionDep
-from backend.app.src.schemas.catalog import PropertyDetail, PropertySummary
+from backend.app.schemas.catalog import PropertyDetail, PropertySummary
 from backend.app.services.catalog import PropertyFilters, get_property_by_slug, search_properties
 
 router = APIRouter(prefix="/properties", tags=["properties"])
