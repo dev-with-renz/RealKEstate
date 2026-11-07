@@ -5,6 +5,23 @@ from backend.app.schemas.inquiry import InquiryCreate
 from backend.app.services.catalog import _like, _nearby, _starting_price
 
 
+def test_seed_uses_selector_loop_on_windows(monkeypatch):
+    from backend import seed
+
+    def fake_run(coroutine, *, loop_factory):
+        loop = loop_factory()
+        try:
+            assert isinstance(loop, seed.asyncio.SelectorEventLoop)
+        finally:
+            loop.close()
+            coroutine.close()
+
+    monkeypatch.setattr(seed.sys, "platform", "win32")
+    monkeypatch.setattr(seed.asyncio, "run", fake_run)
+
+    seed.run()
+
+
 def test_like_escapes_wildcards_and_trims_whitespace():
     assert _like(r" 50%_off\\today ") == r"%50\%\_off\\\\today%"
 

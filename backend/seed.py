@@ -4,6 +4,8 @@ Everything here is SAMPLE content (fictional project names, generic nearby place
 Replace it with real DECA HOMES data. Safe to re-run: existing rows are reused, never duplicated.
 """
 import asyncio
+import selectors
+import sys
 from decimal import Decimal
 
 from sqlalchemy import select
@@ -135,11 +137,23 @@ async def seed_demo_data(session: AsyncSession) -> int:
 
 
 async def main() -> None:
-    async with SessionLocal() as session:
-        created = await seed_demo_data(session)
-    await engine.dispose()
+    try:
+        async with SessionLocal() as session:
+            created = await seed_demo_data(session)
+    finally:
+        await engine.dispose()
     print(f"Seed complete: {created} new propert{'y' if created == 1 else 'ies'} added.")
 
 
+def run() -> None:
+    if sys.platform == "win32":
+        asyncio.run(
+            main(),
+            loop_factory=lambda: asyncio.SelectorEventLoop(selectors.SelectSelector()),
+        )
+    else:
+        asyncio.run(main())
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    run()
