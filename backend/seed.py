@@ -60,19 +60,19 @@ PROPERTIES = [
          images=["/images/aurora-1.svg", "/images/aurora-2.svg", "/images/aurora-3.svg"],
          amenities=["Playground", "Covered Court", "24/7 Security", "Landscaped Garden"],
          description="A community built around family routines: short walks to the essentials, space for kids to play and homes priced for real budgets.\n\nSample description. Replace this with the official project overview.",
-         buildings=["Tower A", "Tower B"]),
+         buildings=["Building A", "Building B"]),
     dict(slug="deca-marigold-grove", name="DECA Marigold Grove", tagline="Bright, modern and easy to live in.",
          location="Imus, Cavite", vibes=["contemporary", "modern"], factor=1.12,
          images=["/images/marigold-1.svg", "/images/marigold-2.svg", "/images/marigold-3.svg"],
          amenities=["Swimming Pool", "Function Room", "24/7 Security", "Fitness Gym"],
          description="Clean lines, warm colors and thoughtful layouts, close to the roads and services you use every day.\n\nSample description. Replace this with the official project overview.",
-         buildings=["Tower A", "Tower B"]),
+         buildings=["Building A", "Building B"]),
     dict(slug="deca-solana-vista", name="DECA Solana Vista", tagline="A stylish address that stays practical.",
          location="Mabalacat, Pampanga", vibes=["stylish", "modern"], factor=1.25,
          images=["/images/solana-1.svg", "/images/solana-2.svg", "/images/solana-3.svg"],
          amenities=["Swimming Pool", "Fitness Gym", "Landscaped Garden", "24/7 Security"],
          description="Skyline views, a modern look and homes that still make financial sense.\n\nSample description. Replace this with the official project overview.",
-         buildings=["Tower A"]),
+         buildings=["Building A"]),
 ]
 
 
@@ -118,7 +118,7 @@ async def seed_demo_data(session: AsyncSession) -> int:
         for b_index, building_name in enumerate(spec["buildings"]):
             building = Building(
                 name=building_name, floors=12 + 2 * b_index, sort_order=b_index,
-                images=[f"/images/tower-{(b_index % 3) + 1}.svg"],
+                images=[f"/images/building-{(b_index % 3) + 1}.svg"],
                 description=f"{building_name} with elevators, secured lobby and ground-floor commercial spaces. Sample description.",
             )
             for bp_index, (bp_spec, bp) in enumerate(blueprints):

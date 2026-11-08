@@ -20,8 +20,8 @@ async def test_list_and_filters(client, seeded):
     cavite = (await client.get("/api/v1/properties", params={"location": "cavite"})).json()
     assert [p["slug"] for p in cavite] == ["deca-marigold-grove"]
 
-    by_tower = (await client.get("/api/v1/properties", params={"q": "tower b"})).json()
-    assert {p["slug"] for p in by_tower} == {"deca-aurora-heights", "deca-marigold-grove"}
+    by_building = (await client.get("/api/v1/properties", params={"q": "building b"})).json()
+    assert {p["slug"] for p in by_building} == {"deca-aurora-heights", "deca-marigold-grove"}
 
     by_unit_number = (await client.get("/api/v1/properties", params={"q": "3B"})).json()
     assert len(by_unit_number) == 3

@@ -54,7 +54,7 @@ export const LOCATION_HINTS = [
 
 // SAMPLE steps: confirm the real process and terms with DECA HOMES sales.
 export const PAYMENT_STEPS = [
-  { title: "Choose your unit", body: "Compare studio, 1-bedroom and 2-bedroom units, then pick the tower and floor that suit you. Not sure? Ask for a free quote." },
+  { title: "Choose your unit", body: "Compare studio, 1-bedroom and 2-bedroom units, then pick the building and floor that suit you. Not sure? Ask for a free quote." },
   { title: "Reserve it", body: "Send your reservation form and pay the reservation fee through any partner bank or e-wallet below." },
   { title: "Submit your requirements", body: "Prepare valid IDs and proof of income. Download the checklist so nothing is missed." },
   { title: "Pay your down payment", body: "Your sales representative will confirm the amount, schedule and payment channel for your chosen unit." },

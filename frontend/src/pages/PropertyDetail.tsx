@@ -13,7 +13,7 @@ import { cn } from "../lib/cn";
 import { formatPeso, formatPesoCompact } from "../lib/format";
 import type { PropertyDetail as PropertyData } from "../types";
 
-type Stage = "property" | "tower" | "unit";
+type Stage = "property" | "building" | "unit";
 
 const NEARBY_ICONS: Record<string, IconName> = {
   Schools: "school",
@@ -61,13 +61,13 @@ function StageTab({ label, value, active, disabled, onClick }: { label: string; 
 function Detail({ property: p }: { property: PropertyData }) {
   const { openQuote } = useQuote();
   const [stage, setStage] = useState<Stage>("property");
-  const [towerId, setTowerId] = useState<number | undefined>(p.towers[0]?.id);
-  const tower = p.towers.find((t) => t.id === towerId) ?? p.towers[0];
-  const [unitTypeId, setUnitTypeId] = useState<number | undefined>(tower?.unit_types[0]?.id);
-  const unit = tower?.unit_types.find((u) => u.id === unitTypeId) ?? tower?.unit_types[0];
+  const [buildingId, setBuildingId] = useState<number | undefined>(p.buildings[0]?.id);
+  const building = p.buildings.find((item) => item.id === buildingId) ?? p.buildings[0];
+  const [unitTypeId, setUnitTypeId] = useState<number | undefined>(building?.unit_types[0]?.id);
+  const unit = building?.unit_types.find((item) => item.id === unitTypeId) ?? building?.unit_types[0];
 
-  const gallery = stage === "property" ? p.images : stage === "tower" ? (tower?.images ?? []) : (unit?.images ?? []);
-  const galleryAlt = stage === "property" ? p.name : stage === "tower" ? `${p.name}, ${tower?.name}` : `${p.name}, ${tower?.name}, ${unit?.name}`;
+  const gallery = stage === "property" ? p.images : stage === "building" ? (building?.images ?? []) : (unit?.images ?? []);
+  const galleryAlt = stage === "property" ? p.name : stage === "building" ? `${p.name}, ${building?.name}` : `${p.name}, ${building?.name}, ${unit?.name}`;
   const nearby = Object.entries(p.nearby);
 
   return (
@@ -116,44 +116,44 @@ function Detail({ property: p }: { property: PropertyData }) {
         )}
       </Section>
 
-      {/* Property > Tower > Unit explorer: each level has its own swipeable pictures */}
+      {/* Property > Building > Unit explorer: each level has its own swipeable pictures */}
       <Section className="pt-0 sm:pt-0">
         <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
-          <Carousel key={`${stage}-${tower?.id}-${unit?.id}`} images={gallery} alt={galleryAlt} aspect="aspect-[4/3] sm:aspect-[16/10]" />
+          <Carousel key={`${stage}-${building?.id}-${unit?.id}`} images={gallery} alt={galleryAlt} aspect="aspect-[4/3] sm:aspect-[16/10]" />
 
           <div className="flex flex-col gap-4">
             <div role="tablist" aria-label="Browse by level" className="flex gap-1 rounded-2xl bg-white p-1.5 shadow-soft ring-1 ring-ink-900/5">
               <StageTab label="Property" value={p.name} active={stage === "property"} onClick={() => setStage("property")} />
-              <StageTab label="Tower" value={tower?.name ?? "None"} active={stage === "tower"} disabled={!tower} onClick={() => setStage("tower")} />
+              <StageTab label="Building" value={building?.name ?? "None"} active={stage === "building"} disabled={!building} onClick={() => setStage("building")} />
               <StageTab label="Unit" value={unit?.name ?? "None"} active={stage === "unit"} disabled={!unit} onClick={() => setStage("unit")} />
             </div>
 
-            {stage !== "property" && p.towers.length > 1 && (
-              <div className="flex flex-wrap gap-2" role="group" aria-label="Choose a tower">
-                {p.towers.map((t) => (
-                  <Pill key={t.id} active={t.id === tower?.id} onClick={() => { setTowerId(t.id); setUnitTypeId(t.unit_types[0]?.id); }}>{t.name}</Pill>
+            {stage !== "property" && p.buildings.length > 1 && (
+              <div className="flex flex-wrap gap-2" role="group" aria-label="Choose a building">
+                {p.buildings.map((item) => (
+                  <Pill key={item.id} active={item.id === building?.id} onClick={() => { setBuildingId(item.id); setUnitTypeId(item.unit_types[0]?.id); }}>{item.name}</Pill>
                 ))}
               </div>
             )}
-            {stage === "unit" && tower && (
+            {stage === "unit" && building && (
               <div className="flex flex-wrap gap-2" role="group" aria-label="Choose a unit type">
-                {tower.unit_types.map((u) => <Pill key={u.id} active={u.id === unit?.id} onClick={() => setUnitTypeId(u.id)}>{u.name}</Pill>)}
+                {building.unit_types.map((u) => <Pill key={u.id} active={u.id === unit?.id} onClick={() => setUnitTypeId(u.id)}>{u.name}</Pill>)}
               </div>
             )}
 
             <div className="rounded-leaf-sm bg-blush p-5">
               {stage === "property" && (
                 <dl className="grid grid-cols-3 gap-3 text-center">
-                  <div><dt className="text-xs text-ink-500">Towers</dt><dd className="font-display text-2xl font-extrabold">{p.tower_count}</dd></div>
+                  <div><dt className="text-xs text-ink-500">Buildings</dt><dd className="font-display text-2xl font-extrabold">{p.building_count}</dd></div>
                   <div><dt className="text-xs text-ink-500">Available</dt><dd className="font-display text-2xl font-extrabold">{p.available_units}</dd></div>
                   <div><dt className="text-xs text-ink-500">From</dt><dd className="font-display text-2xl font-extrabold">{p.price_from != null ? formatPesoCompact(p.price_from) : "N/A"}</dd></div>
                 </dl>
               )}
-              {stage === "tower" && tower && (
+              {stage === "building" && building && (
                 <>
-                  <h3 className="font-display text-xl font-bold">{tower.name}</h3>
-                  <p className="mt-2 text-ink-700">{tower.description}</p>
-                  {tower.floors && <p className="mt-3 text-sm font-semibold text-deca-700">{tower.floors} floors</p>}
+                  <h3 className="font-display text-xl font-bold">{building.name}</h3>
+                  <p className="mt-2 text-ink-700">{building.description}</p>
+                  {building.floors && <p className="mt-3 text-sm font-semibold text-deca-700">{building.floors} floors</p>}
                 </>
               )}
               {stage === "unit" && unit && (
@@ -175,12 +175,12 @@ function Detail({ property: p }: { property: PropertyData }) {
         </div>
       </Section>
 
-      {tower && unit && (
+      {building && unit && (
         <Section className="pt-0 sm:pt-0">
           <h2 className="font-display text-2xl font-bold sm:text-3xl">Amenities</h2>
           <p className="mt-2 text-ink-600">Pick a unit type to see what comes with it.</p>
           <div className="mt-5 flex flex-wrap gap-2" role="group" aria-label="Unit type amenities">
-            {tower.unit_types.map((u) => <Pill key={u.id} active={u.id === unit.id} onClick={() => setUnitTypeId(u.id)}>{u.name}</Pill>)}
+            {building.unit_types.map((u) => <Pill key={u.id} active={u.id === unit.id} onClick={() => setUnitTypeId(u.id)}>{u.name}</Pill>)}
           </div>
           <ul className="mt-5 grid gap-3 sm:grid-cols-2">
             {unit.amenities.map((a) => (

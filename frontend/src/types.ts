@@ -41,7 +41,7 @@ export interface PropertyDetail extends PropertySummary {
   amenities: string[];
   images: string[];
   nearby: Record<string, string[]>;
-  towers: Building[];
+  buildings: Building[];
 }
 
 export interface InquiryPayload {

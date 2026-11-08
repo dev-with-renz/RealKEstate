@@ -16,7 +16,7 @@ export default function Properties() {
 
   return (
     <>
-      <PageHeader title="Properties">Search by name, tower, unit, location or price. Results update as you search.</PageHeader>
+      <PageHeader title="Properties">Search by name, building, unit, location or price. Results update as you search.</PageHeader>
       <div className="relative z-10 -mt-8 px-4 sm:px-8">
         <div className="mx-auto max-w-6xl">
           <SearchBar key={key} defaults={values} variant="inline" />

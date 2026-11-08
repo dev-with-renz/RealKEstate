@@ -40,9 +40,9 @@ export default function SearchBar({ defaults = EMPTY_SEARCH, variant = "hero" }:
 
       <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_auto]">
         <div className="relative">
-          <label htmlFor="search-query" className="sr-only">Property, tower or unit</label>
+          <label htmlFor="search-query" className="sr-only">Property, building or unit</label>
           <Icon name="search" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-deca-500" />
-          <input id="search-query" placeholder="Property, tower or unit (e.g. 5B)" autoComplete="off"
+          <input id="search-query" placeholder="Property, building or unit (e.g. 5B)" autoComplete="off"
             className="field pl-12" aria-invalid={!!errors.query} {...register("query")} />
         </div>
         <div className="relative">

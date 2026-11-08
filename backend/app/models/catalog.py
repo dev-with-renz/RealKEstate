@@ -77,7 +77,7 @@ class NearbyPlace(TimestampMixin, Base):
     property: Mapped["Property"] = relationship(back_populates="nearby_places")
     
 class Building(TimestampMixin, Base):
-    """A building or tower that belongs to a property development."""
+    """A building that belongs to a property development."""
 
     __tablename__ = "buildings"
     
