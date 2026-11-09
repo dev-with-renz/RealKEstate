@@ -26,7 +26,7 @@ export default function Home() {
     <>
       {/* Hero: the one bold moment. Night skyline, glowing windows, search card riding over the edge. */}
       <section className="relative isolate overflow-hidden rounded-b-[2.5rem] bg-ink-900 text-white lg:rounded-b-[3.5rem]">
-        <img src="/images/hero-skyline.svg" alt="" aria-hidden="true" className="absolute inset-0 -z-10 size-full object-cover" />
+        <img src="/images/aerial-day.JPG" alt="" aria-hidden="true" className="absolute inset-0 -z-10 size-full object-cover" />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-b from-ink-950/70 via-ink-950/15 to-ink-950/85" />
         <div className="mx-auto max-w-6xl px-4 pb-44 pt-14 sm:px-8 sm:pb-52 sm:pt-24 lg:pt-32">
           <p className="animate-rise inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-ember-300 backdrop-blur">
