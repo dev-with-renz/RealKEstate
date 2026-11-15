@@ -1,68 +1,65 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────────────────
-   RealKEstate × DECA HOMES theme (Tailwind v4 is CSS-first: there is no
-   tailwind.config.js. Everything lives in this @theme block and becomes
-   utilities automatically: bg-deca-500, text-ink-900, rounded-leaf, shadow-glow ...)
-
-   Palette idea: DECA's red + orange stay the heroes. A deep plum "ink" gives the
-   high contrast, warm cream keeps it light, and a tiny electric-teal "lagoon" is the
-   neon pop used only for status dots and badges.
+   RealKEstate × DECA HOMES theme, based on the Official Brand Color Palette.
+     60%  clean white + light gray  -> cream (#F8F9FA), white cards
+     30%  DECA deep red             -> deca-*  (600 = #B30006, 500 = #D32F2F)
+     30%  eco green + teal          -> lagoon-500 (#2E7D32), lagoon-400 (#00897B)
+     10%  slate / charcoal text     -> ink-* (900 = #263238)
    ────────────────────────────────────────────────────────────────────────── */
 @theme static {
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  /* DECA signature red-orange */
-  --color-deca-50: #fff3ef;
-  --color-deca-100: #ffe1d8;
-  --color-deca-200: #ffc3b0;
-  --color-deca-300: #ff9a7e;
-  --color-deca-400: #fb6a47;
-  --color-deca-500: #ee3b24;
-  --color-deca-600: #d12a16;
-  --color-deca-700: #a81f10;
-  --color-deca-800: #7f1a10;
-  --color-deca-900: #53120d;
+  /* DECA corporate red */
+  --color-deca-50: #fdecec;
+  --color-deca-100: #fad4d5;
+  --color-deca-200: #f4a9ab;
+  --color-deca-300: #ea7377;
+  --color-deca-400: #de4a4e;
+  --color-deca-500: #d32f2f;
+  --color-deca-600: #b30006;
+  --color-deca-700: #8f0005;
+  --color-deca-800: #6b0004;
+  --color-deca-900: #4a0003;
 
-  /* Tangerine / amber (the warm half of the gradient) */
-  --color-ember-300: #ffc078;
-  --color-ember-400: #ffa44a;
-  --color-ember-500: #ff8a1f;
-  --color-ember-600: #e8710a;
-  --color-sun-300: #ffd27a;
+  /* Second stop of the button gradient: a slightly deeper red (was orange) */
+  --color-ember-300: #ffd1d2;
+  --color-ember-400: #e5484d;
+  --color-ember-500: #b30006;
+  --color-ember-600: #8f0005;
 
-  /* Plum ink: text and dark surfaces */
-  --color-ink-50: #f6f1f7;
-  --color-ink-100: #ebe2ed;
-  --color-ink-200: #d4c6d7;
-  --color-ink-300: #b3a0b8;
-  --color-ink-400: #8a7590;
-  --color-ink-500: #655070;
-  --color-ink-600: #47334f;
-  --color-ink-700: #33223b;
-  --color-ink-800: #251530;
-  --color-ink-900: #1a0f1f;
-  --color-ink-950: #100813;
+  /* Slate / charcoal: text, borders, footer */
+  --color-ink-50: #eceff1;
+  --color-ink-100: #cfd8dc;
+  --color-ink-200: #b0bec5;
+  --color-ink-300: #90a4ae;
+  --color-ink-400: #78909c;
+  --color-ink-500: #5b7380;
+  --color-ink-600: #4b626e;
+  --color-ink-700: #37474f;
+  --color-ink-800: #2d3b42;
+  --color-ink-900: #263238;
+  --color-ink-950: #1c262b;
 
   /* Light surfaces */
-  --color-cream: #fff8f3;
-  --color-blush: #ffe9e0;
+  --color-cream: #f8f9fa;
+  --color-blush: #fdecec;
 
-  /* Neon pop (use sparingly) */
-  --color-lagoon-400: #19e3c1;
-  --color-lagoon-500: #0fc7a8;
+  /* Eco accents: lagoon-400 = teal, lagoon-500 = green */
+  --color-lagoon-400: #00897b;
+  --color-lagoon-500: #2e7d32;
 
-  /* Shape language: soft + sharp on the same box (two big round corners, two tight ones) */
+  /* Shape language: soft + sharp on the same box */
   --radius-leaf: 2rem 0.45rem;
   --radius-leaf-sm: 1.25rem 0.35rem;
   --radius-leaf-alt: 0.45rem 2rem;
 
-  /* Warm, tinted shadows instead of grey ones */
-  --shadow-soft: 0 12px 32px -14px rgb(83 18 13 / 0.28);
-  --shadow-lift: 0 30px 70px -28px rgb(83 18 13 / 0.45);
-  --shadow-glow: 0 12px 28px -8px rgb(238 59 36 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.35);
-  --shadow-neon: 0 0 22px rgb(255 138 31 / 0.55), 0 0 60px rgb(238 59 36 / 0.35);
+  /* Shadows tinted with slate/red instead of plain grey */
+  --shadow-soft: 0 12px 32px -14px rgb(38 50 56 / 0.28);
+  --shadow-lift: 0 30px 70px -28px rgb(38 50 56 / 0.42);
+  --shadow-glow: 0 12px 28px -10px rgb(179 0 6 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.25);
+  --shadow-neon: 0 0 0 4px rgb(179 0 6 / 0.12), 0 12px 30px -8px rgb(179 0 6 / 0.5);
 
   --animate-rise: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 
@@ -77,8 +74,8 @@
   body { @apply bg-cream font-sans text-ink-900 antialiased; }
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
   p { text-wrap: pretty; }
-  ::selection { background: var(--color-deca-500); color: #fff; }
-  :focus-visible { outline: 3px solid var(--color-ember-500); outline-offset: 3px; }
+  ::selection { background: var(--color-deca-600); color: #fff; }
+  :focus-visible { outline: 3px solid var(--color-lagoon-400); outline-offset: 3px; }
   img { max-width: 100%; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -113,15 +110,14 @@
 
   .chip { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold; }
 
-  /* Dark section background with the two warm glows (hero-like surfaces) */
+  /* Solid DECA-red surface (page headers, call-out cards). Was a dark plum glow before. */
   .bg-glow {
     background:
-      radial-gradient(40rem 20rem at 88% -15%, rgb(238 59 36 / 0.55), transparent 60%),
-      radial-gradient(30rem 16rem at -5% 115%, rgb(255 138 31 / 0.38), transparent 60%),
-      var(--color-ink-900);
+      radial-gradient(40rem 20rem at 90% -20%, rgb(255 255 255 / 0.16), transparent 60%),
+      var(--color-deca-600);
   }
 
-  /* Gradient hairline border that glows teal-to-orange: the "neon" edge for dark panels */
+  /* Thin gradient border: red to teal */
   .neon-edge { position: relative; }
   .neon-edge::before {
     content: "";
@@ -129,7 +125,7 @@
     inset: 0;
     padding: 1.5px;
     border-radius: inherit;
-    background: linear-gradient(135deg, var(--color-ember-500), var(--color-deca-500) 55%, var(--color-lagoon-400));
+    background: linear-gradient(135deg, var(--color-deca-500), var(--color-lagoon-400));
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
