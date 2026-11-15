@@ -14,8 +14,10 @@ DEFAULT_CSP = (
     "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "
     "connect-src 'self' http://localhost:8000"
 )
-DEPLOYED_CSP = "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://realkestate-ds4v.onrender.com"
-
+DEPLOYED_CSP = (
+    "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://realkestate-ds4v.onrender.com"
+    "connect-src 'self' https://realkestate-prod-api.onrender.com" 
+)
 
 class Settings(BaseSettings):
     """Unified application configuration validating standard, staging, and production specs."""
