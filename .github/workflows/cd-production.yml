@@ -1,0 +1,33 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_deploy:
+        description: Type "deploy" to trigger the production deployment
+        required: true
+        type: choice
+        options:
+          - cancel
+          - deploy
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-production:
+    if: github.ref == 'refs/heads/main' && inputs.confirm_deploy == 'deploy'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Trigger Render production deploy
+        env:
+          RENDER_PRODUCTION_DEPLOY_HOOK_URL: ${{ secrets.RENDER_PRODUCTION_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_PRODUCTION_DEPLOY_HOOK_URL" ]; then
+            echo "::error::Set the RENDER_PRODUCTION_DEPLOY_HOOK_URL secret in the production GitHub environment."
+            exit 1
+          fi
+          curl --fail --silent --show-error \
+            --request POST \
+            "$RENDER_PRODUCTION_DEPLOY_HOOK_URL"
