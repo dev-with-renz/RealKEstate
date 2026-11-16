@@ -6,6 +6,7 @@ export const UNIT_FILTERS = [
   { value: "0", label: "Studio" },
   { value: "1", label: "1 Bedroom" },
   { value: "2", label: "2 Bedroom" },
+  { value: "3", label: "3 Bedroom" },
 ] as const;
 
 export const PRICE_RANGES = [
