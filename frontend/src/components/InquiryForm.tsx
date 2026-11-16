@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { getErrorMessage, submitInquiry } from "../lib/api";
 import { unitLabel } from "../lib/format";
 import { inquirySchema, normalizePhone, quoteSchema, type InquiryValues } from "../lib/schemas";
@@ -20,7 +21,7 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<InquiryValues>({
     resolver: zodResolver(isQuote ? quoteSchema : inquirySchema),
-    defaultValues: { firstName: "", lastName: "", email: "", phone: "", message: "", unitType: "any", website: "" },
+    defaultValues: { firstName: "", lastName: "", email: "", phone: "", message: "", unitType: "any", website: "", consent: false },
   });
 
   const onSubmit = handleSubmit(async (v) => {
@@ -36,6 +37,7 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
         property_slug: propertySlug ?? null,
         unit_type_pref: isQuote && v.unitType !== "any" ? unitLabel(Number(v.unitType)) : null,
         website: v.website,
+        consent: v.consent,
       });
       setSent(true);
       reset();
@@ -47,7 +49,7 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
   if (sent) {
     return (
       <div role="status" className="py-6 text-center">
-        <span className="mx-auto grid size-14 place-items-center rounded-full bg-lagoon-400/20 text-lagoon-500">
+        <span className="mx-auto grid size-14 place-items-center rounded-full bg-lagoon-400/15 text-lagoon-500">
           <Icon name="check" className="size-7" strokeWidth={2.4} />
         </span>
         <h3 className="mt-4 font-display text-2xl font-bold">{isQuote ? "Quote request sent" : "Inquiry sent"}</h3>
@@ -103,6 +105,7 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
             <option value="0">Studio</option>
             <option value="1">1 Bedroom</option>
             <option value="2">2 Bedroom</option>
+            <option value="3">3 Bedroom</option>
           </select>
         </div>
       )}
@@ -119,13 +122,26 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
       {/* Honeypot: invisible to people, tempting to bots. */}
       <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" {...register("website")} />
 
+      {/* Data Privacy Act consent */}
+      <div>
+        <label className="flex items-start gap-3 text-sm text-ink-700">
+          <input type="checkbox" className="mt-0.5 size-5 shrink-0 accent-deca-600" aria-invalid={!!errors.consent} {...register("consent")} />
+          <span>
+            I have read the{" "}
+            <Link to="/privacy" target="_blank" className="font-semibold text-deca-700 underline underline-offset-2">Privacy Notice</Link>{" "}
+            and agree that DECA HOMES and its sales team may collect and use my details to respond to this request.
+          </span>
+        </label>
+        {errors.consent && <p className="field-error">{errors.consent.message}</p>}
+      </div>
+
       {serverError && <p role="alert" className="rounded-2xl bg-deca-50 px-4 py-3 text-sm font-medium text-deca-700">{serverError}</p>}
 
       <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full sm:w-auto sm:justify-self-start">
         <Icon name="send" className="size-5" />
         {isSubmitting ? "Sending..." : isQuote ? "Get my free quote" : "Send inquiry"}
       </button>
-      <p className="text-xs text-ink-500">By sending this form you agree to be contacted about your request.</p>
+      <p className="text-xs text-ink-500">Your details are handled under the Data Privacy Act of 2012 (RA 10173).</p>
     </form>
   );
 }
