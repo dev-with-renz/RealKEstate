@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom"
-import { formatPesoCompact, unitShort } from "../lib/format"
-import type { PropertySummary } from "../types"
-import Icon from "./ui/Icon"
-import Media from "./ui/Media"
+import { Link } from "react-router-dom";
+import { formatPesoCompact, unitShort } from "../lib/format";
+import type { PropertySummary } from "../types";
+import Icon from "./ui/Icon";
+import Media from "./ui/Media";
 
 export default function PropertyCard({ property: p }: { property: PropertySummary }) {
   return (
@@ -15,8 +15,8 @@ export default function PropertyCard({ property: p }: { property: PropertySummar
           ))}
         </ul>
         {p.price_from != null && (
-          <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-ink-950/85 to-transparent px-5 pb-4 pt-12 text-white">
-            <span className="text-xs text-ink-200">Starting at</span>
+          <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-ink-950/80 to-transparent px-5 pb-4 pt-12 text-white">
+            <span className="text-xs text-white/80">Starting at</span>
             <span className="block font-display text-2xl font-extrabold">{formatPesoCompact(p.price_from)}</span>
           </div>
         )}
@@ -37,7 +37,7 @@ export default function PropertyCard({ property: p }: { property: PropertySummar
             <li key={b} className="chip bg-blush text-deca-700">{unitShort(b)}</li>
           ))}
           {p.available_units > 0 && (
-            <li className="chip bg-lagoon-400/15 text-ink-800">
+            <li className="chip bg-lagoon-400/10 text-ink-800">
               <span className="size-1.5 rounded-full bg-lagoon-500" /> {p.available_units} available
             </li>
           )}
