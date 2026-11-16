@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useQuote } from "../../context/quote";
 import Icon from "../ui/Icon";
-import Logo from "../Logo";
 import Footer from "./Footer";
+import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 export default function AppShell() {
@@ -25,32 +25,26 @@ export default function AppShell() {
   }, [menuOpen]);
 
   return (
-    <div className="min-h-dvh lg:flex">
+    <div className="flex min-h-dvh flex-col">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2">
         Skip to content
       </a>
+
+      <Navbar menuOpen={menuOpen} onMenu={() => setMenuOpen(true)} />
       <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex items-center justify-between bg-cream/85 px-4 py-3 backdrop-blur-xl lg:hidden">
-          <Logo />
-          <button type="button" onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen} aria-controls="site-sidebar"
-            className="grid size-11 place-items-center rounded-full bg-ink-900 text-white">
-            <Icon name="menu" />
-          </button>
-        </header>
+      <main id="main" className="flex-1">
+        <Outlet />
+      </main>
 
-        <main id="main" className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
+      {/* The "Meet Kriza" block is part of the footer, but only the homepage asks for it */}
+      <Footer withAgent={pathname === "/"} />
 
+      {/* Floating quote button: phones/tablets only (desktop has one in the navbar) */}
       <button type="button" onClick={() => openQuote()}
-        className="btn btn-primary fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-30 h-14 px-5 shadow-neon sm:right-6">
+        className="btn btn-primary fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-30 h-14 px-5 shadow-neon sm:right-6 lg:hidden">
         <Icon name="sparkle" className="size-5" />
-        <span className="sm:hidden">Free quote</span>
-        <span className="hidden sm:inline">Get a free quote</span>
+        Free quote
       </button>
     </div>
   );
