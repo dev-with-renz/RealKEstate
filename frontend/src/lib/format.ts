@@ -11,3 +11,11 @@ export function formatPesoCompact(n: number): string {
 
 export const unitLabel = (bedrooms: number) => (bedrooms === 0 ? "Studio" : `${bedrooms} Bedroom`);
 export const unitShort = (bedrooms: number) => (bedrooms === 0 ? "Studio" : `${bedrooms}BR`);
+
+/** (24, 24) -> "24 sqm"   (24, 27.5) -> "24 to 27.5 sqm"   (null, null) -> null */
+export function formatArea(min: number | null, max: number | null): string | null {
+  if (min == null && max == null) return null;
+  const lo = min ?? max!;
+  const hi = max ?? min!;
+  return lo === hi ? `${lo} sqm` : `${lo} to ${hi} sqm`;
+}
