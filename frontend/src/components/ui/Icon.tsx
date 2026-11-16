@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 export type IconName =
   | "menu" | "close" | "search" | "pin" | "phone" | "mail" | "arrow-right" | "chevron-left" | "chevron-right"
   | "chevron-down" | "home" | "building" | "bed" | "check" | "sparkle" | "wallet" | "shield" | "heart"
-  | "school" | "hospital" | "landmark" | "cart" | "bag" | "download" | "send" | "file" | "clock" | "layers";
+  | "school" | "hospital" | "landmark" | "cart" | "bag" | "download" | "send" | "file" | "clock" | "layers"
+  | "key" | "trending";
 
 const PATHS: Record<IconName, ReactNode> = {
   menu: <path d="M4 6h16M4 12h16M4 18h16" />,
@@ -34,6 +35,8 @@ const PATHS: Record<IconName, ReactNode> = {
   file: <path d="M7 3h7l5 5v13H7zM14 3v5h5" />,
   clock: (<><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>),
   layers: <path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5" />,
+  key: (<><circle cx="8" cy="15" r="4" /><path d="M11 12l9-9M16 7l3 3M14 9l2 2" /></>),
+  trending: <path d="M3 17l6-6 4 4 8-8M15 7h6v6" />,
 };
 
 interface IconProps {
@@ -47,6 +50,15 @@ export default function Icon({ name, className = "size-5", strokeWidth = 1.8 }: 
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth}
       strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
       {PATHS[name]}
+    </svg>
+  );
+}
+
+/** Facebook "f" mark (filled, uses the current text colour). */
+export function FacebookIcon({ className = "size-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.8c0-.9.3-1.5 1.6-1.5h1.7V3.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.2v2.3H7.7V13h2.7v8z" />
     </svg>
   );
 }
