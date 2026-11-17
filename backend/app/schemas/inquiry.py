@@ -18,6 +18,7 @@ class InquiryCreate(BaseModel):
     property_slug: str | None = Field(default=None, max_length=120)
     unit_type_pref: str | None = Field(default=None, max_length=80)
     website: str = ""  # honeypot: real people never fill this hidden field
+    consent: bool = False
 
     @field_validator("first_name", "last_name", "message", mode="before")
     @classmethod
@@ -37,6 +38,12 @@ class InquiryCreate(BaseModel):
         if self.kind == "inquiry" and len(self.message) < 10:
             raise ValueError("Please tell us a little more (at least 10 characters)")
         return self
+    
+    @model_validator(mode="after")
+    def _consent_required(self):
+        if not self.consent:
+            raise ValueError("Consent to the Privacy Notice is required")
+        return self    
 
 
 class InquiryOut(BaseModel):
