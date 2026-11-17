@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from backend.app.models import Property, Unit
 
 VALID = {"kind": "inquiry", "first_name": "Ana", "last_name": "Reyes", "email": "ana@example.com",
-         "phone": "0917 123 4567", "message": "I would like to visit the model unit."}
+         "phone": "0917 123 4567", "message": "I would like to visit the model unit.", "consent": True}
 
 
 async def test_health(client):
@@ -47,7 +47,9 @@ async def test_detail_shape(client, seeded):
 
     studio, one_br, two_br = d["buildings"][0]["unit_types"]
     assert [studio["name"], one_br["name"], two_br["name"]] == ["Studio", "1 Bedroom", "2 Bedroom"]
-    assert studio["price"] == 1_850_000 and studio["floor_area_sqm"] == 24.0 and studio["bathrooms"] == 1
+    assert studio["price"] == 1_850_000
+    assert studio["floor_area_min_sqm"] == studio["floor_area_max_sqm"] == 24.0
+    assert studio["bathrooms"] == 1
     assert studio["available_units"] == 4  # 6 units: 4 available, 1 reserved, 1 sold
     assert "Compact kitchenette with counter" in studio["amenities"]
     assert two_br["images"] and (await client.get("/api/v1/properties/nope")).status_code == 404
@@ -82,6 +84,7 @@ async def test_inquiry_validation_and_honeypot(client):
     assert (await client.post("/api/v1/inquiries", json={**VALID, "email": "nope"})).status_code == 422
     assert (await client.post("/api/v1/inquiries", json={**VALID, "phone": "12345"})).status_code == 422
     assert (await client.post("/api/v1/inquiries", json={**VALID, "message": "hi"})).status_code == 422
+    assert (await client.post("/api/v1/inquiries", json={**VALID, "consent": False})).status_code == 422
     assert (await client.post("/api/v1/inquiries", json={**VALID, "kind": "quote", "message": ""})).status_code == 201
     bot = await client.post("/api/v1/inquiries", json={**VALID, "website": "http://spam"})
     assert bot.status_code == 201 and bot.json()["id"] == 0

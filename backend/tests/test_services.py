@@ -64,6 +64,7 @@ def test_inquiry_normalizes_phone_and_text():
         email="ana@example.com",
         phone="+63 917-123-4567",
         message=" I want to schedule a visit. ",
+        consent=True,
     )
 
     assert inquiry.first_name == "Ana"
