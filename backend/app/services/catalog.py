@@ -95,9 +95,14 @@ def _nearby(places: list[NearbyPlace]) -> dict[str, list[str]]:
         grouped.setdefault(label, []).append(f"{n.name} ({extra})" if extra else n.name)
     return grouped
 
+def _unit_area(u: Unit) -> float | None:
+    area = u.floor_area if u.floor_area is not None else u.unit_type.floor_area
+    return float(area) if area is not None else None
+
 
 def _building_out(b: Building) -> BuildingOut:
     """Group the building's units by blueprint: that is what the listing page shows as 'unit types'."""
+
     by_type: dict[int, list[Unit]] = {}
     for unit in b.units:
         by_type.setdefault(unit.unit_type_id, []).append(unit)
@@ -105,13 +110,15 @@ def _building_out(b: Building) -> BuildingOut:
     unit_types = []
     for units in by_type.values():
         ut = units[0].unit_type
+        areas = [area for unit in units if (area := _unit_area(unit)) is not None]
         unit_types.append(
             UnitTypeOut(
                 id=ut.id,
                 name=ut.name,
                 bedrooms=ut.bedrooms,
                 bathrooms=ut.bathrooms,
-                floor_area_sqm=float(ut.floor_area) if ut.floor_area is not None else None,
+                floor_area_min_sqm=min(areas) if areas else None,
+                floor_area_max_sqm=max(areas) if areas else None,
                 price=_starting_price(units),
                 description=ut.description or "",
                 amenities=[a.name for a in sorted(ut.amenities, key=lambda a: a.id)],
