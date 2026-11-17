@@ -1,48 +1,54 @@
 import { Link } from "react-router-dom";
-import { CONTACT, NAV, SOCIALS } from "../../data/site";
+import { CONTACT, DATA_PRIVACY, SOCIALS } from "../../data/site";
+import MeetKriza from "../home/MeetKriza";
 import Logo from "../Logo";
+import { FacebookIcon } from "../ui/Icon";
 
 const YEAR = new Date().getFullYear();
 
-export default function Footer() {
+export default function Footer({ withAgent = false }: { withAgent?: boolean }) {
   return (
-    <footer className="mt-8 rounded-t-[2.5rem] bg-ink-900 px-4 pb-28 pt-12 text-ink-200 sm:px-8 lg:rounded-t-[3.5rem] lg:pb-12">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
-        <div>
-          <Logo onDark />
-          <p className="mt-4 max-w-sm text-sm text-ink-300">
-            Explore DECA HOMES communities, compare units and get a free quote, all from your phone or computer.
-          </p>
-          <ul className="mt-5 flex flex-wrap gap-2">
-            {SOCIALS.map((s) => (
-              <li key={s.label}>
-                <a href={s.href} aria-label={s.label} className="grid size-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-deca-500">
-                  {s.short}
-                </a>
-              </li>
-            ))}
-          </ul>
+    <>
+      {withAgent && <MeetKriza />}
+      <footer className="bg-ink-900 px-4 pb-28 pt-12 text-ink-200 sm:px-8 lg:pb-12">
+        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
+          <div>
+            <Logo onDark />
+            <p className="mt-4 max-w-sm text-sm text-ink-300">
+              Explore DECA HOMES communities, compare units and get a free quote, all from your phone or computer.
+            </p>
+            <p className="mt-6 font-display text-lg font-bold text-white">Follow Us</p>
+            <ul className="mt-3 grid gap-2 text-sm">
+              {SOCIALS.map((s) => (
+                <li key={s.label}>
+                  <a href={s.href} className="inline-flex items-center gap-3 hover:text-white">
+                    <span className="grid size-10 place-items-center rounded-full bg-white/10 text-white"><FacebookIcon /></span>
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="font-display text-lg font-bold text-white">Talk to us</p>
+            <ul className="mt-3 grid gap-2 text-sm">
+              {CONTACT.phones.map((p) => <li key={p.value}><a href={p.href} className="hover:text-white">{p.value}</a></li>)}
+              {CONTACT.emails.map((e) => <li key={e.value}><a href={e.href} className="hover:text-white">{e.value}</a></li>)}
+              <li>{CONTACT.hours}</li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="font-display text-lg font-bold text-white">Data privacy</p>
+            <p className="mt-3 text-sm">{DATA_PRIVACY.footer}</p>
+            <Link to="/privacy" className="mt-3 inline-block text-sm font-semibold text-white underline underline-offset-4">Read our Privacy Notice</Link>
+          </div>
         </div>
-        <nav aria-label="Footer">
-          <p className="font-display text-lg font-bold text-white">Explore</p>
-          <ul className="mt-3 grid gap-2 text-sm">
-            {NAV.map((n) => (
-              <li key={n.to}><Link to={n.to} className="hover:text-white">{n.label}</Link></li>
-            ))}
-          </ul>
-        </nav>
-        <div>
-          <p className="font-display text-lg font-bold text-white">Talk to us</p>
-          <ul className="mt-3 grid gap-2 text-sm">
-            <li><a href={CONTACT.phoneHref} className="hover:text-white">{CONTACT.phone}</a></li>
-            <li><a href={`mailto:${CONTACT.email}`} className="hover:text-white">{CONTACT.email}</a></li>
-            <li>{CONTACT.hours}</li>
-          </ul>
-        </div>
-      </div>
-      <p className="mx-auto mt-10 max-w-6xl border-t border-white/10 pt-6 text-xs text-ink-400">
-        © {YEAR} RealKEstate. Prices, floor areas and availability are subject to change without prior notice.
-      </p>
-    </footer>
+        <p className="mx-auto mt-10 max-w-6xl border-t border-white/10 pt-6 text-xs text-ink-300">
+          © {YEAR} RealKEstate. Prices, floor areas and availability are subject to change without prior notice.
+        </p>
+      </footer>
+    </>
   );
 }

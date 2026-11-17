@@ -7,11 +7,11 @@ import Section from "./ui/Section";
 type Mode = keyof typeof LIFESTYLES;
 const MODES = Object.keys(LIFESTYLES) as Mode[];
 
-/** Marketing block: Familial vs Stylish/Modern, then the three style notes. */
+/** Now used on the About page. "Stylish" panel is red instead of near-black. */
 export default function VibeShowcase() {
   const [mode, setMode] = useState<Mode>("familial");
   const v = LIFESTYLES[mode];
-  const dark = mode === "stylish";
+  const alt = mode === "stylish";
 
   return (
     <Section>
@@ -23,21 +23,21 @@ export default function VibeShowcase() {
       <div role="tablist" aria-label="Lifestyle" className="mt-8 inline-flex rounded-full bg-white p-1.5 shadow-soft ring-1 ring-ink-900/5">
         {MODES.map((key) => (
           <button key={key} type="button" role="tab" id={`tab-${key}`} aria-selected={mode === key} aria-controls="vibe-panel" onClick={() => setMode(key)}
-            className={cn("rounded-full px-5 py-2.5 text-sm font-semibold transition", mode === key ? "bg-linear-to-r from-deca-500 to-ember-500 text-white shadow-glow" : "text-ink-600 hover:text-ink-900")}>
+            className={cn("rounded-full px-5 py-2.5 text-sm font-semibold transition", mode === key ? "bg-deca-600 text-white shadow-glow" : "text-ink-600 hover:text-ink-900")}>
             {LIFESTYLES[key].label}
           </button>
         ))}
       </div>
 
       <div id="vibe-panel" role="tabpanel" aria-labelledby={`tab-${mode}`}
-        className={cn("mt-6 grid overflow-hidden transition-colors duration-300 lg:grid-cols-2", dark ? "rounded-leaf-alt bg-ink-900 text-white" : "rounded-leaf bg-blush text-ink-900")}>
+        className={cn("mt-6 grid overflow-hidden transition-colors duration-300 lg:grid-cols-2", alt ? "rounded-leaf-alt bg-deca-600 text-white" : "rounded-leaf bg-blush text-ink-900")}>
         <div className="flex flex-col justify-center gap-5 p-7 sm:p-10">
           <h3 className="font-display text-3xl font-extrabold sm:text-4xl">{v.title}</h3>
-          <p className={dark ? "text-ink-200" : "text-ink-700"}>{v.body}</p>
+          <p className={alt ? "text-white/90" : "text-ink-700"}>{v.body}</p>
           <ul className="grid gap-3">
             {v.points.map((point) => (
               <li key={point} className="flex items-start gap-3">
-                <span className={cn("mt-0.5 grid size-6 shrink-0 place-items-center rounded-full", dark ? "bg-lagoon-400 text-ink-900" : "bg-deca-500 text-white")}>
+                <span className={cn("mt-0.5 grid size-6 shrink-0 place-items-center rounded-full", alt ? "bg-white text-deca-600" : "bg-deca-600 text-white")}>
                   <Icon name="check" className="size-4" strokeWidth={2.6} />
                 </span>
                 {point}
@@ -50,8 +50,8 @@ export default function VibeShowcase() {
 
       <ul className="mt-12 grid gap-8 md:grid-cols-3">
         {STYLES.map((s) => (
-          <li key={s.title} className="border-t-4 border-deca-500 pt-5">
-            <Icon name={s.icon} className="size-8 text-deca-500" />
+          <li key={s.title} className="border-t-4 border-deca-600 pt-5">
+            <Icon name={s.icon} className="size-8 text-deca-600" />
             <h3 className="mt-3 font-display text-2xl font-bold">{s.title}</h3>
             <p className="mt-1.5 text-ink-600">{s.body}</p>
           </li>

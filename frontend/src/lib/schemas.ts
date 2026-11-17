@@ -3,7 +3,7 @@ import { z } from "zod";
 /* Instant feedback + server stays source of truth.
    Frontend form rules live here. The backend re-checks the same rules (Pydantic). */
 
-export const UNIT_KEYS = ["any", "0", "1", "2"] as const;
+export const UNIT_KEYS = ["any", "0", "1", "2", "3"] as const; // 0 = studio
 export const PRICE_KEYS = ["any", "lt2", "2to3", "3to5", "gt5"] as const;
 
 export const searchSchema = z.object({
@@ -31,6 +31,8 @@ const contactFields = z.object({
     .refine((v) => PH_MOBILE.test(normalizePhone(v)), "Enter a PH mobile number, like 0917 123 4567"),
   unitType: z.enum(UNIT_KEYS),
   website: z.string().max(0), // honeypot: hidden from people, bots fill it
+  // Data Privacy Act (RA 10173): the person must agree before we collect their details.
+  consent: z.boolean().refine((v) => v === true, "Please agree to the Privacy Notice to continue"),
 });
 
 export const inquirySchema = contactFields.extend({

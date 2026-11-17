@@ -1,9 +1,16 @@
+export interface GalleryImage {
+  src: string;
+  alt: string;
+}
+
 export interface UnitType {
   id: number;
   name: string;
-  bedrooms: number;
+  bedrooms: number; // 0 = studio, 1, 2, 3
   bathrooms: number;
-  floor_area_sqm: number | null;
+  /** Units of the same type can differ in size, so we show a range. */
+  floor_area_min_sqm: number | null;
+  floor_area_max_sqm: number | null;
   price: number | null;
   description: string;
   amenities: string[];
@@ -54,4 +61,5 @@ export interface InquiryPayload {
   property_slug: string | null;
   unit_type_pref: string | null;
   website: string;
+  consent: boolean; // Data Privacy Act consent
 }

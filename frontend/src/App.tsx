@@ -8,6 +8,7 @@ import Properties from './pages/Properties'
 import PropertyDetail from './pages/PropertyDetail'
 import PaymentGuide from './pages/PaymentGuide'
 import Contact from './pages/Contact'
+import Privacy from "./pages/Privacy"
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="properties/:slug" element={<PropertyDetail />} />
           <Route path="payment-guide" element={<PaymentGuide />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="privacy" element={<Privacy />} />
         </Route>
       </Routes>
     </QuoteProvider>
