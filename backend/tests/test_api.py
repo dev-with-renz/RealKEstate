@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from backend.app.models import Property, Unit
 
 VALID = {"kind": "inquiry", "first_name": "Ana", "last_name": "Reyes", "email": "ana@example.com",
-         "phone": "0917 123 4567", "message": "I would like to visit the model unit."}
+         "phone": "0917 123 4567", "message": "I would like to visit the model unit.", "consent": True}
 
 
 async def test_health(client):
@@ -84,6 +84,7 @@ async def test_inquiry_validation_and_honeypot(client):
     assert (await client.post("/api/v1/inquiries", json={**VALID, "email": "nope"})).status_code == 422
     assert (await client.post("/api/v1/inquiries", json={**VALID, "phone": "12345"})).status_code == 422
     assert (await client.post("/api/v1/inquiries", json={**VALID, "message": "hi"})).status_code == 422
+    assert (await client.post("/api/v1/inquiries", json={**VALID, "consent": False})).status_code == 422
     assert (await client.post("/api/v1/inquiries", json={**VALID, "kind": "quote", "message": ""})).status_code == 201
     bot = await client.post("/api/v1/inquiries", json={**VALID, "website": "http://spam"})
     assert bot.status_code == 201 and bot.json()["id"] == 0
