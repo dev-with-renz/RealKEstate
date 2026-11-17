@@ -164,7 +164,13 @@ function Detail({ property: p }: { property: PropertyData }) {
                   </div>
                   <p className="mt-2 text-ink-700">{unit.description}</p>
                   <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-deca-700">
-                    {unit.floor_area_sqm && <span>{unit.floor_area_sqm} sqm</span>}
+                    {unit.floor_area_min_sqm != null && unit.floor_area_max_sqm != null && (
+                      <span>
+                        {unit.floor_area_min_sqm === unit.floor_area_max_sqm
+                          ? unit.floor_area_min_sqm
+                          : `${unit.floor_area_min_sqm}–${unit.floor_area_max_sqm}`} sqm
+                      </span>
+                    )}
                     <span>{unit.bathrooms} bath</span>
                     <span>{unit.available_units} available</span>
                   </p>
