@@ -5,7 +5,8 @@ class UnitTypeOut(BaseModel):
     name: str
     bedrooms: int
     bathrooms: int
-    floor_area_sqm: float | None
+    floor_area_min_sqm: float | None
+    floor_area_max_sqm: float | None
     price: float | None  # cheapest unit of this type in the building (None if no unit has a price yet)
     description: str
     amenities: list[str]

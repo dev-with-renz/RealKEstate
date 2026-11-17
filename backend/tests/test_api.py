@@ -47,7 +47,9 @@ async def test_detail_shape(client, seeded):
 
     studio, one_br, two_br = d["buildings"][0]["unit_types"]
     assert [studio["name"], one_br["name"], two_br["name"]] == ["Studio", "1 Bedroom", "2 Bedroom"]
-    assert studio["price"] == 1_850_000 and studio["floor_area_sqm"] == 24.0 and studio["bathrooms"] == 1
+    assert studio["price"] == 1_850_000
+    assert studio["floor_area_min_sqm"] == studio["floor_area_max_sqm"] == 24.0
+    assert studio["bathrooms"] == 1
     assert studio["available_units"] == 4  # 6 units: 4 available, 1 reserved, 1 sold
     assert "Compact kitchenette with counter" in studio["amenities"]
     assert two_br["images"] and (await client.get("/api/v1/properties/nope")).status_code == 404
