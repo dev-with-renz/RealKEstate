@@ -31,7 +31,7 @@ const placeholderPillars = (): Pillar[] =>
 export const HOLDINGS: Agency = {
   id: "8990-holdings",
   title: "8990 Holdings, Inc.",
-  logo: "/images/other/8990_Holdings.png",
+  logo: "/other/8990_Holdings.png",
   logoAlt: "8990 Holdings, Inc. logo",
   pitch: [
     "8990 Holdings, Inc. is one of the largest mass housing developers in the Philippines and the force behind the DECA HOMES communities you are exploring.",
@@ -46,7 +46,7 @@ export const HOLDINGS: Agency = {
 export const XUR: Agency = {
   id: "xur-homes-realty",
   title: "XUR Homes Realty, Inc.",
-  logo: "/images/other/XUR_Homes_Realty.jpg",
+  logo: "/other/XUR_Homes_Realty.jpg",
   logoAlt: "XUR Homes Realty, Inc. logo",
   pitch: [
     "XUR Homes Realty, Inc. is the real estate team that guides your purchase, from finding the right unit to making sense of your payment options.",
