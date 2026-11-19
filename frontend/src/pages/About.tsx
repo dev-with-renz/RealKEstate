@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import VibeShowcase from "../components/VibeShowcase";
+import AgencyDropdowns from "../components/about/AgencyDropdowns";
 import PageHeader from "../components/ui/PageHeader";
 import Section from "../components/ui/Section";
 import { ABOUT } from "../data/site";
@@ -11,11 +11,10 @@ export default function About() {
 
       <Section>
         <p className="max-w-3xl font-display text-2xl font-bold leading-snug sm:text-3xl">{ABOUT.intro}</p>
-        <p className="max-w-5xl font-display text-2xl font-bold leading-snug sm:text-3xl">{ABOUT.subIntro}</p>
       </Section>
 
-      {/* Replaces Mission / Vision / Values: the lifestyle glimpse and the three DECA style notes */}
-      <VibeShowcase />
+      {/* Replaces <VibeShowcase />: Meet Kriza, 8990 Holdings, XUR Homes Realty */}
+      <AgencyDropdowns />
 
       <Section className="pt-0 sm:pt-0">
         <div className="rounded-leaf bg-white p-7 shadow-soft ring-1 ring-ink-900/5 sm:p-12">
