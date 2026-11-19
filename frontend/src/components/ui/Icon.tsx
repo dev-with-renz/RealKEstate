@@ -4,7 +4,7 @@ export type IconName =
   | "menu" | "close" | "search" | "pin" | "phone" | "mail" | "arrow-right" | "chevron-left" | "chevron-right"
   | "chevron-down" | "home" | "building" | "bed" | "check" | "sparkle" | "wallet" | "shield" | "heart"
   | "school" | "hospital" | "landmark" | "cart" | "bag" | "download" | "send" | "file" | "clock" | "layers"
-  | "key" | "trending";
+  | "key" | "trending" | "pillars";
 
 const PATHS: Record<IconName, ReactNode> = {
   menu: <path d="M4 6h16M4 12h16M4 18h16" />,
@@ -37,6 +37,7 @@ const PATHS: Record<IconName, ReactNode> = {
   layers: <path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5" />,
   key: (<><circle cx="8" cy="15" r="4" /><path d="M11 12l9-9M16 7l3 3M14 9l2 2" /></>),
   trending: <path d="M3 17l6-6 4 4 8-8M15 7h6v6" />,
+  pillars: <path d="M3 8l9-5 9 5zM5.5 11v7M9 11v7M12.5 11v7M16 11v7M19.5 11v7M3 21h18" />,
 };
 
 interface IconProps {
