@@ -11,6 +11,7 @@ export default function About() {
 
       <Section>
         <p className="max-w-3xl font-display text-2xl font-bold leading-snug sm:text-3xl">{ABOUT.intro}</p>
+        <p className="max-w-5xl font-display text-2xl font-bold leading-snug sm:text-3xl">{ABOUT.subIntro}</p>
       </Section>
 
       {/* Replaces Mission / Vision / Values: the lifestyle glimpse and the three DECA style notes */}

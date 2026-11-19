@@ -181,7 +181,8 @@ export const STYLES: { title: string; body: string; icon: IconName }[] = [
 // SAMPLE: replace with the official profile.
 export const ABOUT = {
   tagline: "Good homes should be within reach.",
-  intro: "DECA HOMES creates affordable, well-planned communities for Filipino families. RealKEstate is where you explore them, compare units and talk to a real person.",
+  intro: "Finding a quality home shouldn't be complicated.",
+  subIntro: "Built on the legacy of DECA HOMES and 8990 Holdings—pioneers in accessible, high-value housing—we make buying simple and personal. Browse our properties, choose a layout that fits your budget, and connect with an expert who puts your family first.",
   story: [
     { title: "Where it started", body: "It began with a simple question: why should a good home feel out of reach for a hard-working family? DECA HOMES set out to answer it with thoughtful planning, practical designs and fair prices." },
     { title: "What we believe", body: "Affordable does not have to mean basic. We put light, ventilation and sensible layouts first, then add the touches that make a unit feel like yours." },
