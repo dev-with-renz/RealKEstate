@@ -21,7 +21,7 @@ export default function MeetKriza() {
           <div className="mt-6 flex flex-wrap gap-3">
             <button type="button" className="btn btn-primary" onClick={() => openQuote()}>Message {KRIZA.name}</button>
             {/* "/about#meet-kriza": the About page reads the #hash, opens that dropdown and scrolls to it */}
-            <Link to={`/about#${KRIZA_ID}`} className="btn btn-ghost">Learn More about your Agent</Link>
+            <Link to={`/about#${KRIZA_ID}`} className="btn btn-ghost">Learn more about your Agent</Link>
           </div>
 
           {/* Phone stays, now BELOW the options, at the same size as the button text (text-sm font-semibold) */}

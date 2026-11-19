@@ -45,6 +45,7 @@
   /* Light surfaces */
   --color-cream: #f8f9fa;
   --color-blush: #fdecec;
+  --color-blush-50: #fef6f6; 
 
   /* Eco accents: lagoon-400 = teal, lagoon-500 = green */
   --color-lagoon-400: #00897b;
