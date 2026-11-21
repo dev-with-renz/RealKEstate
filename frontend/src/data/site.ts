@@ -55,7 +55,7 @@ export const LOCATION_HINTS = [
 
 // Copy your photos to frontend/public/images/udh-ortigas/ with these names (or change the paths).
 export const FEATURED = {
-  slug: "udh-ortigas", // must match Property.slug in the database
+  slug: "urban-deca-homes-ortigas", // must match Property.slug in the database
   name: "UDH Ortigas",
   eyebrow: "Featured community",
   title: "Live where life happens.",
@@ -69,8 +69,8 @@ export const FEATURED = {
   ] as GalleryImage[],
 };
 
-// These slugs show first in "Our communities". They must match Property.slug in the database.
-export const PRIORITY_SLUGS = ["udh-cubao", "udh-manila"];
+// These slugs show first in "Our communities". Region names also cover existing slug variants.
+export const PRIORITY_SLUGS = ["urban-deca-homes-cubao", "urban-deca-homes-manila"];
 
 export const PROCESSES: { title: string; body: string; to: string; cta: string; icon: IconName; accent: string }[] = [
   { title: "Property Buying", body: "Pick your unit, reserve it, then settle your down payment through our partner banks or Pag-IBIG.", to: "/properties", cta: "Browse properties", icon: "home", accent: "border-deca-600" },
