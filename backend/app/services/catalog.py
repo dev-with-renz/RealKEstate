@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from sqlalchemy import and_, exists, or_, select
+from sqlalchemy import and_, case, exists, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -183,7 +183,39 @@ async def search_properties(session: AsyncSession, f: PropertyFilters) -> list[P
             match = or_(match, and_(*advertised))
         stmt = stmt.where(match)
 
-    stmt = stmt.options(*LIST_EAGER).order_by(Property.sort_order, Property.name).limit(f.limit).offset(f.offset)
+    priority_order = case(
+        (
+            or_(
+                Property.slug.ilike("%ortigas%"),
+                Property.name.ilike("%ortigas%"),
+                Property.location.ilike("%ortigas%"),
+            ),
+            0,
+        ),
+        (
+            or_(
+                Property.slug.ilike("%cubao%"),
+                Property.name.ilike("%cubao%"),
+                Property.location.ilike("%cubao%"),
+            ),
+            1,
+        ),
+        (
+            or_(
+                Property.slug.ilike("%manila%"),
+                Property.name.ilike("%manila%"),
+                Property.location.ilike("%manila%"),
+            ),
+            2,
+        ),
+        else_=3,
+    )
+    stmt = (
+        stmt.options(*LIST_EAGER)
+        .order_by(priority_order, Property.sort_order, Property.name)
+        .limit(f.limit)
+        .offset(f.offset)
+    )
     return [_summary(p) for p in (await session.scalars(stmt)).all()]
 
 
