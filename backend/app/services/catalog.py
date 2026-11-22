@@ -21,6 +21,7 @@ DETAIL_EAGER = (
 
 # NearbyPlace.category -> heading on the website. Unknown categories fall back to a Title Case heading.
 NEARBY_LABELS = {
+    "transport": "Transit & Major Road Access",
     "school": "Schools",
     "hospital": "Hospitals",
     "government": "Government Agencies",
