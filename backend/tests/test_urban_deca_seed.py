@@ -1,4 +1,4 @@
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 
 from backend.app.models import Amenity, Building, NearbyPlace, Property, Unit, UnitType
 from backend.seed_urban_deca import seed_urban_deca_data
@@ -126,6 +126,63 @@ async def test_urban_deca_seed_has_requested_inventory_and_prices(session_factor
         )
         assert nearby_categories == {"transport", "school", "hospital", "mall", "government"}
 
+        for slug, expected_count in (
+            ("urban-deca-homes-ortigas", 23),
+            ("urban-deca-homes-cubao", 24),
+        ):
+            property_places = (
+                await session.execute(
+                    select(NearbyPlace.name, NearbyPlace.category)
+                    .join(Property)
+                    .where(Property.slug == slug)
+                )
+            ).all()
+            assert len(property_places) == expected_count
+            assert {category for _, category in property_places} == {
+                "transport",
+                "school",
+                "hospital",
+                "government",
+                "primary_need",
+                "mall",
+            }
+
+        assert await session.scalar(
+            select(func.max(func.length(NearbyPlace.distance_text))).where(
+                NearbyPlace.property_id.in_(
+                    select(Property.id).where(
+                        Property.slug.in_(
+                            ["urban-deca-homes-ortigas", "urban-deca-homes-cubao"]
+                        )
+                    )
+                )
+            )
+        ) <= 50
+
+        await session.execute(
+            delete(NearbyPlace).where(
+                NearbyPlace.property_id.in_(
+                    select(Property.id).where(
+                        Property.slug.in_(
+                            ["urban-deca-homes-ortigas", "urban-deca-homes-cubao"]
+                        )
+                    )
+                )
+            )
+        )
+        await session.commit()
+        assert await seed_urban_deca_data(session) == 0
+        assert await session.scalar(
+            select(func.count(NearbyPlace.id))
+            .join(Property)
+            .where(Property.slug == "urban-deca-homes-ortigas")
+        ) == 23
+        assert await session.scalar(
+            select(func.count(NearbyPlace.id))
+            .join(Property)
+            .where(Property.slug == "urban-deca-homes-cubao")
+        ) == 24
+
 
 async def test_property_list_prioritizes_ortigas_cubao_then_manila(client, session_factory, seeded):
     async with session_factory() as session:
@@ -140,3 +197,8 @@ async def test_property_list_prioritizes_ortigas_cubao_then_manila(client, sessi
     manila = (await client.get("/api/v1/properties/urban-deca-homes-manila")).json()
     assert "Deca Mall" in manila["amenities"]
     assert "Transit & Major Road Access" in manila["nearby"]
+    ortigas = (await client.get("/api/v1/properties/urban-deca-homes-ortigas")).json()
+    cubao = (await client.get("/api/v1/properties/urban-deca-homes-cubao")).json()
+    assert "Transit & Major Road Access" in ortigas["nearby"]
+    assert "Primary Needs" in ortigas["nearby"]
+    assert "Transit & Major Road Access" in cubao["nearby"]
