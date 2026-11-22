@@ -70,7 +70,7 @@ class NearbyPlace(TimestampMixin, Base):
     
     name: Mapped[str] = mapped_column(String(200)) # "SM Aura", "BGC High School"
     category: Mapped[str] = mapped_column(String(50))
-    # school | hospital | government | primary_need | mall   (the website groups by these; others show as-is)
+    # transport | school | hospital | government | primary_need | mall (the website groups by these)
     distance_km: Mapped[float | None] = mapped_column(nullable=True)  # 0.8
     distance_text: Mapped[str | None] = mapped_column(String(50), nullable=True)  # "5 mins walk"
 
