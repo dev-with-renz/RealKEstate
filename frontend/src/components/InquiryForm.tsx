@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { getErrorMessage, submitInquiry } from "../lib/api";
-import { unitLabel } from "../lib/format";
+import { useRemote } from "../hooks/useRemote";
+import { fetchProperties, getErrorMessage, submitInquiry } from "../lib/api";
 import { inquirySchema, normalizePhone, quoteSchema, type InquiryValues } from "../lib/schemas";
+import type { PropertySummary } from "../types";
 import Icon from "./ui/Icon";
 
 interface InquiryFormProps {
@@ -19,10 +20,17 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
   const [serverError, setServerError] = useState<string | null>(null);
   const isQuote = kind === "quote";
 
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<InquiryValues>({
+  const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm<InquiryValues>({
     resolver: zodResolver(isQuote ? quoteSchema : inquirySchema),
-    defaultValues: { firstName: "", lastName: "", email: "", phone: "", message: "", unitType: "any", website: "", consent: false },
+    defaultValues: { firstName: "", lastName: "", email: "", phone: "", message: "", propertySlug: propertySlug ?? "", website: "", consent: false },
   });
+
+  // Quote form only: the list that fills the "Property you are interested in" dropdown
+  const { state: properties } = useRemote<PropertySummary[]>(() => (isQuote ? fetchProperties({ limit: 100 }) : Promise.resolve([])), [isQuote]);
+  // Once the options exist, re-apply the preselected property (a select can lose its value while options load)
+  useEffect(() => {
+    if (properties.status === "ready" && propertySlug) setValue("propertySlug", propertySlug);
+  }, [properties.status, propertySlug, setValue]);
 
   const onSubmit = handleSubmit(async (v) => {
     setServerError(null);
@@ -34,8 +42,7 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
         email: v.email,
         phone: normalizePhone(v.phone),
         message: v.message,
-        property_slug: propertySlug ?? null,
-        unit_type_pref: isQuote && v.unitType !== "any" ? unitLabel(Number(v.unitType)) : null,
+        property_slug: (isQuote ? v.propertySlug : propertySlug) || null,
         website: v.website,
         consent: v.consent,
       });
@@ -99,13 +106,12 @@ export default function InquiryForm({ kind = "inquiry", propertySlug, propertyNa
 
       {isQuote && (
         <div>
-          <label htmlFor="quote-unit" className="field-label">Unit you are interested in</label>
-          <select id="quote-unit" className="field" {...register("unitType")}>
-            <option value="any">Not sure yet</option>
-            <option value="0">Studio</option>
-            <option value="1">1 Bedroom</option>
-            <option value="2">2 Bedroom</option>
-            <option value="3">3 Bedroom</option>
+          <label htmlFor="quote-property" className="field-label">Property you are interested in</label>
+          <select id="quote-property" className="field" {...register("propertySlug")}>
+            <option value="">Not sure yet</option>
+            {/* While the list loads, still show the property we came from */}
+            {properties.status !== "ready" && propertySlug && <option value={propertySlug}>{propertyName ?? propertySlug}</option>}
+            {properties.status === "ready" && properties.data.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}
           </select>
         </div>
       )}
