@@ -29,7 +29,7 @@ const contactFields = z.object({
     .string()
     .trim()
     .refine((v) => PH_MOBILE.test(normalizePhone(v)), "Enter a PH mobile number, like 0917 123 4567"),
-  unitType: z.enum(UNIT_KEYS),
+  propertySlug: z.string().max(120), // slug of the property the person is interested in ("" = not sure yet)
   website: z.string().max(0), // honeypot: hidden from people, bots fill it
   // Data Privacy Act (RA 10173): the person must agree before we collect their details.
   consent: z.boolean().refine((v) => v === true, "Please agree to the Privacy Notice to continue"),
