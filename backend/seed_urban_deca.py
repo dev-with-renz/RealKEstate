@@ -25,11 +25,13 @@ ORTIGAS_PRICE_RANGES = {
     2: (3_312_000, 3_968_000),
     3: (4_320_000, 4_638_000),
 }
+ORTIGAS_COORDINATES = (14.591305, 121.101333)
 
 CUBAO_UNIT_TYPES = [
     ("UDHC-STU", "Studio", 0, None, "STU", 1_987_500, 2_572_000),
     ("UDHC-1BR", "1 Bedroom", 1, None, "1BR", 4_145_100, 4_767_000),
 ]
+CUBAO_COORDINATES = (14.617369, 121.051567)
 
 MANILA_UNIT_TYPES = [
     ("UDHM-STU", "Studio", 0, "22.95", "STU"),
@@ -39,6 +41,7 @@ MANILA_UNIT_TYPES = [
     ("UDHM-2BR-C", "2 Bedroom C", 2, "45.90", "2BRC"),
     ("UDHM-2BR-D", "2 Bedroom D", 2, "34.42", "2BRD"),
 ]
+MANILA_COORDINATES = (14.625116, 120.962479)
 
 MANILA_AMENITIES = [
     ("Deca Mall", "mall", "mall"),
@@ -208,6 +211,7 @@ async def _seed_ortigas(session: AsyncSession) -> bool:
     slug = "urban-deca-homes-ortigas"
     existing = await session.scalar(select(Property).where(Property.slug == slug))
     if existing is not None:
+        existing.latitude, existing.longitude = ORTIGAS_COORDINATES
         await _ensure_nearby_places(session, existing.id, ORTIGAS_NEARBY_PLACES)
         return False
 
@@ -216,6 +220,8 @@ async def _seed_ortigas(session: AsyncSession) -> bool:
         name="Urban Deca Homes Ortigas",
         location="Ortigas",
         address="Ortigas",
+        latitude=ORTIGAS_COORDINATES[0],
+        longitude=ORTIGAS_COORDINATES[1],
         description="A multi-building mid-rise residential community along the Ortigas corridor featuring compact 2- and 3-bedroom layouts, shared open spaces, and convenient access to business districts, schools, retail, and public transit.",
         tagline="Mid-rise family and commuter living near Ortigas.",
         vibes=["family", "practical"],
@@ -270,6 +276,7 @@ async def _seed_cubao(session: AsyncSession) -> bool:
     slug = "urban-deca-homes-cubao"
     existing = await session.scalar(select(Property).where(Property.slug == slug))
     if existing is not None:
+        existing.latitude, existing.longitude = CUBAO_COORDINATES
         await _ensure_nearby_places(session, existing.id, CUBAO_NEARBY_PLACES)
         return False
 
@@ -278,6 +285,8 @@ async def _seed_cubao(session: AsyncSession) -> bool:
         name="Urban Deca Homes Cubao",
         location="Cubao",
         address="Cubao",
+        latitude=CUBAO_COORDINATES[0],
+        longitude=CUBAO_COORDINATES[1],
         description="A vertical residential development in Cubao, Quezon City tailored for students, working professionals, and city dwellers who want studio or one-bedroom living close to MRT/LRT lines, malls, offices, and daily essentials.",
         tagline="City living steps from Cubao's transit and hubs.",
         vibes=["family", "practical"],
@@ -319,7 +328,9 @@ async def _seed_cubao(session: AsyncSession) -> bool:
 
 async def _seed_manila(session: AsyncSession) -> bool:
     slug = "urban-deca-homes-manila"
-    if await session.scalar(select(Property.id).where(Property.slug == slug)):
+    existing = await session.scalar(select(Property).where(Property.slug == slug))
+    if existing is not None:
+        existing.latitude, existing.longitude = MANILA_COORDINATES
         return False
 
     unit_types = [
@@ -358,6 +369,8 @@ async def _seed_manila(session: AsyncSession) -> bool:
         name="Urban Deca Homes Manila",
         location="Tondo, Manila",
         address="Tondo, Manila",
+        latitude=MANILA_COORDINATES[0],
+        longitude=MANILA_COORDINATES[1],
         tagline="City living close to transit and daily essentials.",
         description="A residential community in Tondo, Manila with studio, one-bedroom, and two-bedroom homes, an on-site Deca Mall, shared amenities, and access to LRT-1, major roads, schools, hospitals, and daily services.",
         vibes=["urban", "practical"],

@@ -1,4 +1,4 @@
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, update
 
 from backend.app.models import Amenity, Building, NearbyPlace, Property, Unit, UnitType
 from backend.seed_urban_deca import seed_urban_deca_data
@@ -170,6 +170,19 @@ async def test_urban_deca_seed_has_requested_inventory_and_prices(session_factor
                 )
             )
         )
+        await session.execute(
+            update(Property)
+            .where(
+                Property.slug.in_(
+                    [
+                        "urban-deca-homes-ortigas",
+                        "urban-deca-homes-cubao",
+                        "urban-deca-homes-manila",
+                    ]
+                )
+            )
+            .values(latitude=0, longitude=0)
+        )
         await session.commit()
         assert await seed_urban_deca_data(session) == 0
         assert await session.scalar(
@@ -182,6 +195,27 @@ async def test_urban_deca_seed_has_requested_inventory_and_prices(session_factor
             .join(Property)
             .where(Property.slug == "urban-deca-homes-cubao")
         ) == 24
+        coordinates = (
+            await session.execute(
+                select(Property.slug, Property.latitude, Property.longitude).where(
+                    Property.slug.in_(
+                        [
+                            "urban-deca-homes-ortigas",
+                            "urban-deca-homes-cubao",
+                            "urban-deca-homes-manila",
+                        ]
+                    )
+                )
+            )
+        ).all()
+        assert {
+            slug: (latitude, longitude)
+            for slug, latitude, longitude in coordinates
+        } == {
+            "urban-deca-homes-ortigas": (14.591305, 121.101333),
+            "urban-deca-homes-cubao": (14.617369, 121.051567),
+            "urban-deca-homes-manila": (14.625116, 120.962479),
+        }
 
 
 async def test_property_list_prioritizes_ortigas_cubao_then_manila(client, session_factory, seeded):
@@ -195,7 +229,7 @@ async def test_property_list_prioritizes_ortigas_cubao_then_manila(client, sessi
         "urban-deca-homes-manila",
     ]
     manila = (await client.get("/api/v1/properties/urban-deca-homes-manila")).json()
-    assert "Deca Mall" in manila["amenities"]
+    assert any(amenity["name"] == "Deca Mall" for amenity in manila["amenities"])
     assert "Transit & Major Road Access" in manila["nearby"]
     ortigas = (await client.get("/api/v1/properties/urban-deca-homes-ortigas")).json()
     cubao = (await client.get("/api/v1/properties/urban-deca-homes-cubao")).json()
