@@ -3,6 +3,7 @@ export interface GalleryImage {
   alt: string;
 }
 
+/** One row per unit type (2BR A, 2BR B ...) used in a property. */
 export interface UnitType {
   id: number;
   name: string;
@@ -11,20 +12,29 @@ export interface UnitType {
   /** Units of the same type can differ in size, so we show a range. */
   floor_area_min_sqm: number | null;
   floor_area_max_sqm: number | null;
-  price: number | null;
-  description: string;
-  amenities: string[];
-  images: string[];
-  available_units: number;
+  price_min: number | null;
+  price_max: number | null;
 }
 
-export interface Building {
-  id: number;
+/** One row per bedroom count (Studio, 1BR, 2BR, 3BR) with the price range across ALL its sub types. */
+export interface BedroomPrice {
+  bedrooms: number;
+  price_min: number | null;
+  price_max: number | null;
+}
+
+export interface Amenity {
   name: string;
-  description: string;
-  floors: number | null;
-  images: string[];
-  unit_types: UnitType[];
+  icon: string | null; // "pool", "court", "garden" ...
+}
+
+export interface PropertyFacts {
+  address: string | null;
+  land_area_sqm: number | null;
+  total_buildings: number;
+  total_floors: number | null;
+  total_units: number;
+  parking_slots: number | null;
 }
 
 export interface PropertySummary {
@@ -39,16 +49,19 @@ export interface PropertySummary {
   price_to: number | null;
   bedrooms: number[];
   building_count: number;
-  available_units: number;
 }
 
 export interface PropertyDetail extends PropertySummary {
   description: string;
   address: string | null;
-  amenities: string[];
-  images: string[];
+  images: string[]; // up to 10 property pictures
+  amenities: Amenity[]; // community amenities
   nearby: Record<string, string[]>;
-  buildings: Building[];
+  bedroom_prices: BedroomPrice[];
+  unit_types: UnitType[];
+  facts: PropertyFacts;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 export interface InquiryPayload {
@@ -58,8 +71,7 @@ export interface InquiryPayload {
   email: string;
   phone: string;
   message: string;
-  property_slug: string | null;
-  unit_type_pref: string | null;
+  property_slug: string | null; // the property the person is interested in
   website: string;
   consent: boolean; // Data Privacy Act consent
 }

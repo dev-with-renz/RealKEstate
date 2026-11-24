@@ -31,11 +31,11 @@ export default function PropertyMap({ name, address, latitude, longitude }: Prop
       </div>
 
       <div className="mt-4 flex flex-wrap gap-3">
-        <a href={`https://www.google.com/maps/dir/?api=1&destination=${q}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-          Get directions<span className="sr-only"> (opens in a new tab)</span>
-        </a>
         <a href={`https://www.google.com/maps/search/?api=1&query=${q}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
           Open in Google Maps<span className="sr-only"> (opens in a new tab)</span>
+        </a>
+        <a href={`https://www.google.com/maps/dir/?api=1&destination=${q}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+          Directions in Google Maps<span className="sr-only"> (opens in a new tab)</span>
         </a>
       </div>
     </Section>
