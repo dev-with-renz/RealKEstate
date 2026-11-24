@@ -45,6 +45,12 @@ class Property(TimestampMixin, Base):
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     location: Mapped[str] = mapped_column(String(200), index=True)
     price_from: Mapped[Decimal | None] = mapped_column(Numeric(14,2), nullable=True)
+    land_area_sqm: Mapped[Decimal | None] = mapped_column(Numeric(12, 2), nullable=True)
+    total_floors: Mapped[int | None] = mapped_column(nullable=True)
+    total_units: Mapped[int | None] = mapped_column(nullable=True)
+    parking_slots: Mapped[int | None] = mapped_column(nullable=True)
+    latitude: Mapped[float | None] = mapped_column(nullable=True)
+    longitude: Mapped[float | None] = mapped_column(nullable=True)
     
     # Visible fields on UI
     tagline: Mapped[str | None] = mapped_column(String(255), nullable=True)

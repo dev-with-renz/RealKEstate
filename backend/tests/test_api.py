@@ -41,9 +41,28 @@ async def test_list_and_filters(client, seeded):
 async def test_detail_shape(client, seeded):
     d = (await client.get("/api/v1/properties/deca-aurora-heights")).json()
     assert d["location"] == "San Jose del Monte, Bulacan"
-    assert "Playground" in d["amenities"]
+    assert any(amenity["name"] == "Playground" for amenity in d["amenities"])
     assert list(d["nearby"])[:2] == ["Schools", "Hospitals"]  # grouped from NearbyPlace rows, in a fixed order
     assert len(d["buildings"]) == 2
+
+    assert d["bedroom_prices"][0] == {
+        "bedrooms": 0,
+        "price_min": 1_850_000,
+        "price_max": 1_999_000,
+    }
+    assert [unit_type["name"] for unit_type in d["unit_types"]] == [
+        "Studio",
+        "1 Bedroom",
+        "2 Bedroom",
+    ]
+    assert d["facts"] == {
+        "address": "San Jose del Monte, Bulacan",
+        "land_area_sqm": None,
+        "total_buildings": 2,
+        "total_floors": 26,
+        "total_units": 36,
+        "parking_slots": None,
+    }
 
     studio, one_br, two_br = d["buildings"][0]["unit_types"]
     assert [studio["name"], one_br["name"], two_br["name"]] == ["Studio", "1 Bedroom", "2 Bedroom"]
@@ -53,6 +72,30 @@ async def test_detail_shape(client, seeded):
     assert studio["available_units"] == 4  # 6 units: 4 available, 1 reserved, 1 sold
     assert "Compact kitchenette with counter" in studio["amenities"]
     assert two_br["images"] and (await client.get("/api/v1/properties/nope")).status_code == 404
+
+
+async def test_property_facts_and_coordinates_use_saved_values(client, seeded, session_factory):
+    async with session_factory() as session:
+        prop = await session.scalar(select(Property).where(Property.slug == "deca-aurora-heights"))
+        prop.land_area_sqm = 12_345.67
+        prop.total_floors = 30
+        prop.total_units = 450
+        prop.parking_slots = 70
+        prop.latitude = 14.8123
+        prop.longitude = 121.0123
+        await session.commit()
+
+    details = (await client.get("/api/v1/properties/deca-aurora-heights")).json()
+    assert details["facts"] == {
+        "address": "San Jose del Monte, Bulacan",
+        "land_area_sqm": 12_345.67,
+        "total_buildings": 2,
+        "total_floors": 30,
+        "total_units": 450,
+        "parking_slots": 70,
+    }
+    assert details["latitude"] == 14.8123
+    assert details["longitude"] == 121.0123
 
 
 async def test_advertised_price_overrides_computed(client, seeded, session_factory):

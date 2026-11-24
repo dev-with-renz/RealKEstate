@@ -5,7 +5,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from backend.app.models.catalog import Building, NearbyPlace, Property, Unit, UnitType
-from backend.app.schemas.catalog import PropertyDetail, PropertySummary, BuildingOut, UnitTypeOut
+from backend.app.schemas.catalog import (
+    BedroomPriceOut,
+    BuildingOut,
+    PropertyAmenityOut,
+    PropertyDetail,
+    PropertyFactsOut,
+    PropertySummary,
+    PropertyUnitTypeOut,
+    UnitTypeOut,
+)
 
 ESC = "\\"
 
@@ -133,13 +142,71 @@ def _building_out(b: Building) -> BuildingOut:
 
 
 def _detail(p: Property) -> PropertyDetail:
+    units = _all_units(p)
+    units_by_type: dict[int, list[Unit]] = {}
+    units_by_bedrooms: dict[int, list[Unit]] = {}
+    for unit in units:
+        units_by_type.setdefault(unit.unit_type_id, []).append(unit)
+        units_by_bedrooms.setdefault(unit.unit_type.bedrooms, []).append(unit)
+
+    property_unit_types = []
+    for grouped_units in units_by_type.values():
+        unit_type = grouped_units[0].unit_type
+        areas = [area for unit in grouped_units if (area := _unit_area(unit)) is not None]
+        prices = [float(unit.price) for unit in grouped_units if unit.price is not None]
+        property_unit_types.append(
+            PropertyUnitTypeOut(
+                id=unit_type.id,
+                name=unit_type.name,
+                bedrooms=unit_type.bedrooms,
+                bathrooms=unit_type.bathrooms,
+                floor_area_min_sqm=min(areas) if areas else None,
+                floor_area_max_sqm=max(areas) if areas else None,
+                price_min=min(prices) if prices else None,
+                price_max=max(prices) if prices else None,
+            )
+        )
+    property_unit_types.sort(key=lambda unit_type: (unit_type.bedrooms, unit_type.name))
+
+    bedroom_prices = []
+    for bedrooms, grouped_units in sorted(units_by_bedrooms.items()):
+        prices = [float(unit.price) for unit in grouped_units if unit.price is not None]
+        bedroom_prices.append(
+            BedroomPriceOut(
+                bedrooms=bedrooms,
+                price_min=min(prices) if prices else None,
+                price_max=max(prices) if prices else None,
+            )
+        )
+
+    known_floors = [building.floors for building in p.buildings]
+    derived_floors = (
+        sum(floor for floor in known_floors if floor is not None)
+        if known_floors and all(floor is not None for floor in known_floors)
+        else None
+    )
     return PropertyDetail(
         **_summary(p).model_dump(),
         description=p.description or "",
         address=p.address,
         images=list(p.images or []),
-        amenities=[a.name for a in sorted(p.amenities, key=lambda a: a.id)],
+        amenities=[
+            PropertyAmenityOut(name=amenity.name, icon=amenity.icon)
+            for amenity in sorted(p.amenities, key=lambda amenity: amenity.id)
+        ],
         nearby=_nearby(p.nearby_places),
+        bedroom_prices=bedroom_prices,
+        unit_types=property_unit_types,
+        facts=PropertyFactsOut(
+            address=p.address,
+            land_area_sqm=float(p.land_area_sqm) if p.land_area_sqm is not None else None,
+            total_buildings=len(p.buildings),
+            total_floors=p.total_floors if p.total_floors is not None else derived_floors,
+            total_units=p.total_units if p.total_units is not None else len(units),
+            parking_slots=p.parking_slots,
+        ),
+        latitude=p.latitude,
+        longitude=p.longitude,
         buildings=[_building_out(b) for b in p.buildings],
     )
 
