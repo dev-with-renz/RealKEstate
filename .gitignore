@@ -3,3 +3,16 @@ backend/.env
 
 # misc files
 *.pyc
+
+# UDH images not currently referenced by the app or seed data
+/frontend/public/images/udh-cubao/building-legend.png
+/frontend/public/images/udh-cubao/building-level.png
+/frontend/public/images/udh-cubao/master-floor-plan.png
+/frontend/public/images/udh-cubao/unit-floor-plan.png
+/frontend/public/images/udh-ortigas/2BR-A.png
+/frontend/public/images/udh-ortigas/2BR-B.png
+/frontend/public/images/udh-ortigas/2BR-C.png
+/frontend/public/images/udh-ortigas/3BR-A.png
+/frontend/public/images/udh-ortigas/building-legend.png
+/frontend/public/images/udh-ortigas/layout-level.png
+/frontend/public/images/udh-ortigas/unit-type-area.png
