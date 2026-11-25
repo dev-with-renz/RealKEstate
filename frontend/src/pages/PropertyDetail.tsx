@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import InquirySection from "../components/InquirySection";
+import CommunityAmenities from "../components/property/CommunityAmenities";
 import NearbyDropdowns from "../components/property/NearbyDropdowns";
 import PropertyExplorer from "../components/property/PropertyExplorer";
 import PropertyMap from "../components/property/PropertyMap";
@@ -74,11 +75,13 @@ function Detail({ property: p }: { property: PropertyData }) {
       </Section>
 
       <Section className="pt-0 sm:pt-0">
-        <h2 className="font-display text-2xl font-bold sm:text-3xl">About this community</h2>
+        <h2 className="font-display text-2xl font-bold sm:text-3xl">About this Community</h2>
         <p className="mt-3 max-w-3xl whitespace-pre-line text-ink-700">{p.description}</p>
       </Section>
 
+      {/* Order on the page: explorer, then community amenities, then the map and nearby places */}
       <PropertyExplorer property={p} />
+      <CommunityAmenities amenities={p.amenities} />
       <PropertyMap name={p.name} address={p.address ?? p.location} latitude={p.latitude} longitude={p.longitude} />
       <NearbyDropdowns nearby={p.nearby} />
 

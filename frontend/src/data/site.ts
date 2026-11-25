@@ -64,7 +64,7 @@ export const FEATURED = {
   // The FIRST image is also the homepage hero cover. Add more objects to grow the photo viewer.
   images: [
     { src: "/images/udh-ortigas/aerial-day.jpg", alt: "Aerial view of UDH Ortigas towers, park and courts" },
-    { src: "/images/udh-ortigas/night-park.jpg", alt: "Landscaped park lit up at night" },
+    { src: "/images/udh-ortigas/play.jpg", alt: "Landscaped park lit up at night" },
     { src: "/images/udh-ortigas/towers-night.jpg", alt: "UDH Ortigas towers at night" },
   ] as GalleryImage[],
 };
@@ -75,7 +75,7 @@ export const PRIORITY_SLUGS = ["urban-deca-homes-cubao", "urban-deca-homes-manil
 export const PROCESSES: { title: string; body: string; to: string; cta: string; icon: IconName; accent: string }[] = [
   { title: "Property Buying", body: "Pick your unit, reserve it, then settle your down payment through our partner banks or Pag-IBIG.", to: "/properties", cta: "Browse properties", icon: "home", accent: "border-deca-600" },
   { title: "Rent-to-Own", body: "Move in sooner and let your monthly payments work toward owning the unit. Ask which units qualify.", to: "/contact#inquire", cta: "Ask about rent-to-own", icon: "key", accent: "border-lagoon-400" },
-  { title: "Investment", body: "Studios and 1-bedrooms in busy districts, made for steady rental income. Let us run the numbers with you.", to: "/contact#inquire", cta: "Talk about investing", icon: "trending", accent: "border-lagoon-500" },
+  { title: "Investment", body: "Properties in high-demand districts, built for steady rental income. Let us run the numbers with you.", to: "/contact#inquire", cta: "Talk about investing", icon: "trending", accent: "border-lagoon-500" },
 ];
 
 export const KRIZA = {

@@ -4,7 +4,9 @@ export type IconName =
   | "menu" | "close" | "search" | "pin" | "phone" | "mail" | "arrow-right" | "chevron-left" | "chevron-right"
   | "chevron-down" | "home" | "building" | "bed" | "check" | "sparkle" | "wallet" | "shield" | "heart"
   | "school" | "hospital" | "landmark" | "cart" | "bag" | "download" | "send" | "file" | "clock" | "layers"
-  | "key" | "trending" | "pool" | "court" | "garden" | "gym" | "playground" | "bus" | "pillars";
+  | "key" | "trending" | "pool" | "court" | "garden" | "gym" | "playground" | "bus" | "pillars"
+  | "park" | "lagoon" | "clubhouse" | "basketball" | "jogging-path" | "outdoor-gym" | "security-cctv"
+  | "commercial" | "elevator" | "cafeteria" | "parking" | "concierge";
 
 const PATHS: Record<IconName, ReactNode> = {
   menu: <path d="M4 6h16M4 12h16M4 18h16" />,
@@ -42,6 +44,18 @@ const PATHS: Record<IconName, ReactNode> = {
   garden: <path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14M5 19l8-8" />,
   gym: <path d="M6 8v8M3.5 10v4M18 8v8M20.5 10v4M6 12h12" />,
   playground: <path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z" />,
+  park: <path d="M12 3 7 9h3l-5 6h6v6h2v-6h6l-5-6h3z" />,
+  lagoon: (<><path d="M12 3s-5 5.5-5 9a5 5 0 0010 0c0-3.5-5-9-5-9z" /><path d="M3 19c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5" /></>),
+  clubhouse: (<><path d="M3 10l9-6 9 6M5 10v10M19 10v10M3 20h18" /><path d="M9 20v-6h6v6" /></>),
+  basketball: (<><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3v18M5.6 5.6c3.5 3.5 9.3 9.3 12.8 12.8M18.4 5.6C14.9 9.1 9.1 14.9 5.6 18.4" /></>),
+  "jogging-path": (<><circle cx="15.5" cy="4.5" r="1.5" /><path d="M12 7l-3 4 4 2 2 4M9 11l-4 1M13 13l-2 6M15 17l4 2M4 21h16" /></>),
+  "outdoor-gym": (<><circle cx="17" cy="7" r="2" /><path d="M17 2v1M17 11v1M12 7h1M21 7h1M4 12v6M2 14v2M10 12v6M12 14v2M4 15h6" /></>),
+  "security-cctv": (<><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /><rect x="8" y="9" width="7" height="4" rx="1" /><path d="M15 10l3-1v4l-3-1M10 15h3" /></>),
+  commercial: (<><path d="M3 10l2-6h14l2 6M4 10v10h16V10M3 10h18" /><path d="M9 20v-6h6v6M4 10a2 2 0 004 0 2 2 0 004 0 2 2 0 004 0 2 2 0 004 0" /></>),
+  elevator: (<><rect x="5" y="3" width="14" height="18" rx="1.5" /><path d="M9 8l2-2 2 2M11 6v5M15 16l-2 2-2-2M13 18v-5" /></>),
+  cafeteria: (<><circle cx="12" cy="12" r="7" /><path d="M4 3v7M2 3v3m4-3v3M4 10v11M20 3v18M17 3v6a3 3 0 003 3" /></>),
+  parking: (<><path d="M3 18h18l-2-7H5zM5 18v2M19 18v2M6 11l2-5h8l2 5" /><path d="M10 8h4a2 2 0 010 4h-4z" /></>),
+  concierge: (<><circle cx="12" cy="7" r="3" /><path d="M6 20v-2a6 6 0 0112 0v2M3 20h18M5 15h14" /></>),
   bus: (<><rect x="4" y="3" width="16" height="14" rx="3" /><path d="M4 11h16M8 21v-4M16 21v-4" /></>),
   pillars: <path d="M3 8l9-5 9 5zM5.5 11v7M9 11v7M12.5 11v7M16 11v7M19.5 11v7M3 21h18" />,
 };

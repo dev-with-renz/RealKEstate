@@ -25,7 +25,7 @@ export default function NearbyDropdowns({ nearby }: { nearby: Record<string, str
 
   return (
     <Section className="pt-0 sm:pt-0">
-      <h2 className="font-display text-2xl font-bold sm:text-3xl">Nearby locations</h2>
+      <h2 className="font-display text-2xl font-bold sm:text-3xl">Nearby Locations</h2>
       {/* Phones: one column. Desktop: two columns; items-start keeps a closed card from stretching to its open neighbour. */}
       <div className="mt-6 grid gap-3 lg:grid-cols-2 lg:items-start">
         {groups.map(([group, places]) => (
