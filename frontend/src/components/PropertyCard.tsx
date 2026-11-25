@@ -36,11 +36,6 @@ export default function PropertyCard({ property: p }: { property: PropertySummar
           {p.bedrooms.map((b) => (
             <li key={b} className="chip bg-blush text-deca-700">{unitShort(b)}</li>
           ))}
-          {p.available_units > 0 && (
-            <li className="chip bg-lagoon-400/10 text-ink-800">
-              <span className="size-1.5 rounded-full bg-lagoon-500" /> {p.available_units} available
-            </li>
-          )}
         </ul>
       </div>
     </article>

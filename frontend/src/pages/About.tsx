@@ -9,8 +9,9 @@ export default function About() {
     <>
       <PageHeader title="About DECA HOMES">{ABOUT.tagline}</PageHeader>
 
-      <Section>
-        <p className="max-w-3xl font-display text-2xl font-bold leading-snug sm:text-3xl">{ABOUT.intro}</p>
+      <Section className="pb-0 sm:pb-0">
+        <p className="max-w-1xl font-display text-2xl font-bold leading-snug sm:text-3xl">{ABOUT.intro}</p>
+        <p className="max-w-1xl font-display text-lg leading-snug sm:text-2xl">{ABOUT.subIntro}</p>
       </Section>
 
       {/* Replaces <VibeShowcase />: Meet Kriza, 8990 Holdings, XUR Homes Realty */}

@@ -35,10 +35,42 @@ class PropertySummary(BaseModel):
     building_count: int
     available_units: int
     
+class PropertyAmenityOut(BaseModel):
+    name: str
+    icon: str | None
+
+class BedroomPriceOut(BaseModel):
+    bedrooms: int
+    price_min: float | None
+    price_max: float | None
+
+class PropertyUnitTypeOut(BaseModel):
+    id: int
+    name: str
+    bedrooms: int
+    bathrooms: int
+    floor_area_min_sqm: float | None
+    floor_area_max_sqm: float | None
+    price_min: float | None
+    price_max: float | None
+
+class PropertyFactsOut(BaseModel):
+    address: str | None
+    land_area_sqm: float | None
+    total_buildings: int
+    total_floors: int | None
+    total_units: int
+    parking_slots: int | None
+
 class PropertyDetail(PropertySummary):
     description: str
     address: str| None
     images: list[str]
-    amenities: list[str]
+    amenities: list[PropertyAmenityOut]
     nearby: dict[str, list[str]]
+    bedroom_prices: list[BedroomPriceOut]
+    unit_types: list[PropertyUnitTypeOut]
+    facts: PropertyFactsOut
+    latitude: float | None
+    longitude: float | None
     buildings: list[BuildingOut]

@@ -55,23 +55,26 @@ NEARBY = [
 STATUS_CYCLE = ["available", "available", "reserved", "available", "sold", "available"]
 
 PROPERTIES = [
-    dict(slug="deca-aurora-heights", name="DECA Aurora Heights", tagline="Everyday comfort, within reach.",
+    dict(slug="deca-aurora-heights", name="DECA Aurora Heights",
+         tagline="Practical family living in San Jose del Monte.",
          location="San Jose del Monte, Bulacan", vibes=["family", "practical"], factor=1.0,
          images=["/images/aurora-1.svg", "/images/aurora-2.svg", "/images/aurora-3.svg"],
          amenities=["Playground", "Covered Court", "24/7 Security", "Landscaped Garden"],
-         description="A community built around family routines: short walks to the essentials, space for kids to play and homes priced for real budgets.\n\nSample description. Replace this with the official project overview.",
+         description="A practical residential community in San Jose del Monte, Bulacan built around everyday family routines, open spaces for kids, and accessible access to markets, schools, and transport routes north of Metro Manila.",
          buildings=["Building A", "Building B"]),
-    dict(slug="deca-marigold-grove", name="DECA Marigold Grove", tagline="Bright, modern and easy to live in.",
+    dict(slug="deca-marigold-grove", name="DECA Marigold Grove",
+         tagline="Modern everyday living along the Cavite corridor.",
          location="Imus, Cavite", vibes=["contemporary", "modern"], factor=1.12,
          images=["/images/marigold-1.svg", "/images/marigold-2.svg", "/images/marigold-3.svg"],
          amenities=["Swimming Pool", "Function Room", "24/7 Security", "Fitness Gym"],
-         description="Clean lines, warm colors and thoughtful layouts, close to the roads and services you use every day.\n\nSample description. Replace this with the official project overview.",
+         description="A contemporary community in Imus, Cavite designed for convenient daily commutes toward Metro Manila and south Cavite, pairing clean modern unit layouts with neighborhood amenities and nearby commercial essentials.",
          buildings=["Building A", "Building B"]),
-    dict(slug="deca-solana-vista", name="DECA Solana Vista", tagline="A stylish address that stays practical.",
+    dict(slug="deca-solana-vista", name="DECA Solana Vista",
+         tagline="Accessible homes in growing Mabalacat, Pampanga.",
          location="Mabalacat, Pampanga", vibes=["stylish", "modern"], factor=1.25,
          images=["/images/solana-1.svg", "/images/solana-2.svg", "/images/solana-3.svg"],
          amenities=["Swimming Pool", "Fitness Gym", "Landscaped Garden", "24/7 Security"],
-         description="Skyline views, a modern look and homes that still make financial sense.\n\nSample description. Replace this with the official project overview.",
+         description="A modern residential development in Mabalacat, Pampanga offering practical layouts and community amenities near major highways, commercial hubs, and employment centers across Clark and Pampanga.",
          buildings=["Building A"]),
 ]
 

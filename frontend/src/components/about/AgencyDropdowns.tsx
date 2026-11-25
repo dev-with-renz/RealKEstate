@@ -9,7 +9,7 @@ import PillarsDialog from "./PillarsDialog";
 
 /* All three cards share ONE height. When the words don't fit, the card scrolls inside itself.
    h-[26rem] on phones, h-[30rem] from the lg breakpoint up. */
-const CARD = "h-[26rem] overflow-y-auto overscroll-contain rounded-leaf-sm bg-white p-6 shadow-soft ring-1 ring-ink-900/5 lg:h-[30rem]";
+const CARD = "h-[26rem] overflow-y-auto overscroll-contain rounded-leaf-sm bg-blush-50 p-6 shadow-soft ring-1 ring-ink-900/5 lg:h-[30rem]";
 const ROW = "flex w-full items-center gap-3 rounded-2xl bg-ink-50 p-3 text-left transition hover:bg-blush";
 
 function Dropdown({ id, title, open, onToggle, children }: { id: string; title: string; open: boolean; onToggle: () => void; children: ReactNode }) {
@@ -37,7 +37,12 @@ function IconBox({ name }: { name: IconName }) {
 function AgencyCard({ agency, onPillars }: { agency: Agency; onPillars: () => void }) {
   return (
     <>
-      <img src={agency.logo} alt={agency.logoAlt} className="mx-auto h-14 w-auto max-w-[70%] object-contain" />
+      <div className={cn(
+        "mx-auto flex h-20 w-full max-w-[70%] items-center justify-center rounded-xl",
+        agency.id === HOLDINGS.id && "bg-black px-4 py-2",
+      )}>
+        <img src={agency.logo} alt={agency.logoAlt} className="max-h-14 max-w-full object-contain" />
+      </div>
       <div className="mt-5 grid gap-3 text-ink-700">
         {agency.pitch.map((p) => <p key={p}>{p}</p>)}
       </div>

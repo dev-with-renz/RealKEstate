@@ -4,7 +4,7 @@ export type IconName =
   | "menu" | "close" | "search" | "pin" | "phone" | "mail" | "arrow-right" | "chevron-left" | "chevron-right"
   | "chevron-down" | "home" | "building" | "bed" | "check" | "sparkle" | "wallet" | "shield" | "heart"
   | "school" | "hospital" | "landmark" | "cart" | "bag" | "download" | "send" | "file" | "clock" | "layers"
-  | "key" | "trending" | "pillars";
+  | "key" | "trending" | "pool" | "court" | "garden" | "gym" | "playground" | "bus" | "pillars";
 
 const PATHS: Record<IconName, ReactNode> = {
   menu: <path d="M4 6h16M4 12h16M4 18h16" />,
@@ -37,6 +37,12 @@ const PATHS: Record<IconName, ReactNode> = {
   layers: <path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5" />,
   key: (<><circle cx="8" cy="15" r="4" /><path d="M11 12l9-9M16 7l3 3M14 9l2 2" /></>),
   trending: <path d="M3 17l6-6 4 4 8-8M15 7h6v6" />,
+  pool: <path d="M3 17c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5M3 21c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5M8 13V5a2 2 0 014 0M14 13V5a2 2 0 014 0M8 9h6" />,
+  court: (<><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" /></>),
+  garden: <path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14M5 19l8-8" />,
+  gym: <path d="M6 8v8M3.5 10v4M18 8v8M20.5 10v4M6 12h12" />,
+  playground: <path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z" />,
+  bus: (<><rect x="4" y="3" width="16" height="14" rx="3" /><path d="M4 11h16M8 21v-4M16 21v-4" /></>),
   pillars: <path d="M3 8l9-5 9 5zM5.5 11v7M9 11v7M12.5 11v7M16 11v7M19.5 11v7M3 21h18" />,
 };
 

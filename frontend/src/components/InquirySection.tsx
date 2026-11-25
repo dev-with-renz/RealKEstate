@@ -12,7 +12,7 @@ export default function InquirySection({ propertySlug, propertyName }: InquirySe
     <Section id="inquire">
       <div className="grid overflow-hidden rounded-leaf bg-white shadow-lift ring-1 ring-ink-900/5 lg:grid-cols-[5fr_6fr]">
         <div className="relative min-h-64 lg:min-h-full">
-          <img src="/images/inquiry-side.svg" alt="" aria-hidden="true" className="absolute inset-0 size-full object-cover" />
+          <img src="/images/inquiry-side.jfif" alt="" aria-hidden="true" className="absolute inset-0 size-full object-cover" />
           <div className="absolute inset-0 bg-linear-to-t from-ink-950/90 via-ink-950/25 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
             <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Find the best home for you</h2>

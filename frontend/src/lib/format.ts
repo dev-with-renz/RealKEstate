@@ -19,3 +19,11 @@ export function formatArea(min: number | null, max: number | null): string | nul
   const hi = max ?? min!;
   return lo === hi ? `${lo} sqm` : `${lo} to ${hi} sqm`;
 }
+
+/** (3312000, 3968000) -> "₱3,312,000 – ₱3,968,000"   (same value twice -> just one price) */
+export function formatPriceRange(min: number | null, max: number | null): string {
+  if (min == null && max == null) return "Ask for price";
+  const lo = min ?? max!;
+  const hi = max ?? min!;
+  return lo === hi ? formatPeso(lo) : `${formatPeso(lo)} – ${formatPeso(hi)}`;
+}
