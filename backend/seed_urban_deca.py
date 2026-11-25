@@ -8,7 +8,7 @@ import asyncio
 import selectors
 import sys
 
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -460,24 +460,31 @@ async def seed_urban_deca_data(session: AsyncSession) -> int:
     await session.commit()
     return created
 
+async def reset_catalog(session: AsyncSession) -> None:
+    """Delete ONLY the catalog tables, children first. Inquiries and users are never touched."""
+    for model in (Unit, Building, NearbyPlace, Property, UnitType, Amenity):
+        await session.execute(delete(model))
 
-async def main() -> None:
+async def main(reset: bool = False) -> None:
     try:
         async with SessionLocal() as session:
-            created = await seed_urban_deca_data(session)
+            if reset:
+                await reset_catalog(session)  # not committed yet
+            created = await seed_urban_deca_data(session)  # one commit for wipe + reseed together
     finally:
         await engine.dispose()
-    print(f"Seed complete: {created} new Urban Deca Homes propert{'y' if created == 1 else 'ies'} added.")
+    print(f"Seed complete: {created} Urban Deca Homes propert{'y' if created == 1 else 'ies'} added.")
 
 
 def run() -> None:
+    reset = "--reset" in sys.argv[1:]
     if sys.platform == "win32":
         asyncio.run(
-            main(),
+            main(reset),
             loop_factory=lambda: asyncio.SelectorEventLoop(selectors.SelectSelector()),
         )
     else:
-        asyncio.run(main())
+        asyncio.run(main(reset))
 
 
 if __name__ == "__main__":
