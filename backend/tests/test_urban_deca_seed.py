@@ -1,4 +1,5 @@
 from sqlalchemy import delete, func, select, update
+from sqlalchemy.orm import selectinload
 
 from backend.app.models import Amenity, Building, NearbyPlace, Property, Unit, UnitType
 from backend.seed_urban_deca import seed_urban_deca_data
@@ -115,6 +116,41 @@ async def test_urban_deca_seed_has_requested_inventory_and_prices(session_factor
         assert "Deca Mall" in manila_amenities
         assert "24/7 Security with RFID Elevator Access" in manila_amenities
 
+        property_amenities = (
+            await session.execute(
+                select(Property.slug, Amenity.name, Amenity.icon)
+                .join(Property.amenities)
+                .where(
+                    Property.slug.in_(
+                        ["urban-deca-homes-ortigas", "urban-deca-homes-cubao"]
+                    )
+                )
+            )
+        ).all()
+        amenities_by_property = {}
+        for slug, name, icon in property_amenities:
+            amenities_by_property.setdefault(slug, {})[name] = icon
+        assert amenities_by_property == {
+            "urban-deca-homes-ortigas": {
+                "Central Amenity Park": "park",
+                "Lagoon": "lagoon",
+                "Clubhouse": "clubhouse",
+                "Two Basketball Courts": "basketball",
+                "Children's Playground": "playground",
+                "Jogging Path": "jogging-path",
+                "Outdoor Gym": "outdoor-gym",
+                "24/7 Security & CCTV Monitoring": "security-cctv",
+            },
+            "urban-deca-homes-cubao": {
+                "On-site Commercial Establishments": "commercial",
+                "High-Speed Elevators": "elevator",
+                "Dining Hall and Cafeteria": "cafeteria",
+                "24/7 Security & CCTV Monitoring": "security-cctv",
+                "Multi-Level Basement Parking": "parking",
+                "Lobby & Concierge Area": "concierge",
+            },
+        }
+
         nearby_categories = set(
             (
                 await session.scalars(
@@ -183,6 +219,45 @@ async def test_urban_deca_seed_has_requested_inventory_and_prices(session_factor
             )
             .values(latitude=0, longitude=0)
         )
+        await session.execute(
+            update(Property)
+            .where(
+                Property.slug.in_(
+                    [
+                        "urban-deca-homes-ortigas",
+                        "urban-deca-homes-cubao",
+                        "urban-deca-homes-manila",
+                    ]
+                )
+            )
+            .values(images=["/stale.png"])
+        )
+        properties = (
+            await session.scalars(
+                select(Property)
+                .options(selectinload(Property.amenities))
+                .where(
+                    Property.slug.in_(
+                        ["urban-deca-homes-ortigas", "urban-deca-homes-cubao"]
+                    )
+                )
+            )
+        ).all()
+        for prop in properties:
+            if prop.slug == "urban-deca-homes-ortigas":
+                lagoon = next(
+                    amenity for amenity in prop.amenities if amenity.name == "Lagoon"
+                )
+                prop.amenities.remove(lagoon)
+        amenity_names = {
+            name for property_amenity_map in amenities_by_property.values()
+            for name in property_amenity_map
+        }
+        await session.execute(
+            update(Amenity)
+            .where(Amenity.name.in_(amenity_names))
+            .values(icon="sparkle")
+        )
         await session.commit()
         assert await seed_urban_deca_data(session) == 0
         assert await session.scalar(
@@ -216,6 +291,44 @@ async def test_urban_deca_seed_has_requested_inventory_and_prices(session_factor
             "urban-deca-homes-cubao": (14.617369, 121.051567),
             "urban-deca-homes-manila": (14.625116, 120.962479),
         }
+        images = (
+            await session.execute(
+                select(Property.slug, Property.images).where(
+                    Property.slug.in_(
+                        [
+                            "urban-deca-homes-ortigas",
+                            "urban-deca-homes-cubao",
+                            "urban-deca-homes-manila",
+                        ]
+                    )
+                )
+            )
+        ).all()
+        assert dict(images) == {
+            "urban-deca-homes-ortigas": [
+                "/images/udh-ortigas/aerial-day.jpg",
+                "/images/udh-ortigas/buildings-overall-aerial.png",
+                "/images/udh-ortigas/towers-night.jpg",
+                "/images/udh-ortigas/night-park.jpg",
+            ],
+            "urban-deca-homes-cubao": [],
+            "urban-deca-homes-manila": [
+                "/images/udh-manila/building-outro-parking.webp",
+                "/images/udh-manila/buildings-overall-aerial.jfif",
+            ],
+        }
+        restored_amenities = (
+            await session.execute(
+                select(Property.slug, Amenity.name, Amenity.icon)
+                .join(Property.amenities)
+                .where(
+                    Property.slug.in_(
+                        ["urban-deca-homes-ortigas", "urban-deca-homes-cubao"]
+                    )
+                )
+            )
+        ).all()
+        assert set(restored_amenities) == set(property_amenities)
 
 
 async def test_property_list_prioritizes_ortigas_cubao_then_manila(client, session_factory, seeded):
